@@ -61,6 +61,9 @@ export const PHB_STYLES = StyleSheet.create({
     },
     page_title_text:{
         fontSize: 30
-    }
+    },
+    border:{
+        borderWidth: 5,
+    },
 
 });

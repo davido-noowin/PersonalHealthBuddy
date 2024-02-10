@@ -12,4 +12,3 @@ export function PHB_Header({navigation: {navigate}}){
         </View>
     )
 }
-//<Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
