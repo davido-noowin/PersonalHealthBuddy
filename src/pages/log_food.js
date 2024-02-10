@@ -1,23 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import { CheckListRow } from '../components/checklist_row';
+import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
+import { PHB_Header } from '../components/header';
 
 export function LogFood({ navigation }) {
     return (
-        <View style={[styles.root_container, {flexDirection:'column'}]}>
+        <View style={PHB_STYLES.root_container}>
     
-          <View style={styles.header}>
-            <Text style={styles.header_text}>Personal Health Buddy</Text>
-            <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-          </View>
+          <PHB_Header navigation={navigation}/>
     
-          <View style={styles.body}>
-    
-            <View style={styles.center}>
+          <View style={PHB_STYLES.body}>
+            
+            <View style={PHB_STYLES.center}>
+            <View style={PHB_STYLES.page_title_frame}>
+                <Text style={[PHB_STYLES.page_title_text, PHB_STYLES.body_text]}>Log Food</Text>
+            </View>
                 <ScrollView style={styles.scroll_view}>
                     <CheckListRow text="Did you eat a meal today?"/>
                     <CheckListRow text="Did you eat fruits today?"/>
                     <CheckListRow text="Did you eat fiber today?"/>
+                    <CheckListRow text="Did you eat meat today?"/>
                 </ScrollView>
             </View>
             
@@ -30,44 +33,10 @@ export function LogFood({ navigation }) {
 }
     
 const styles = StyleSheet.create({
-    root_container: {
-        flex: 1,
-        backgroundColor: '#fff',
-    },
-
-    header:{
-        flex: 1,
-        backgroundColor: '#9BBEC8',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: '3%'
-    },
-
-    header_text:{
-        color:'white',
-        fontSize:30
-    },
-
-    center:{
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     scroll_view:{
         height: '90%',
         width: '50%',
         margin: '10%',
     },
-
-    body:{
-        flex: 9,
-        backgroundColor: '#164863',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
-    body_text:{
-        color:'white',
-    }
-
 });
 

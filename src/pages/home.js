@@ -2,17 +2,17 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ImageBackground } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
+import { PHB_Header } from '../components/header';
 
 export function Home({ navigation }) {
     return (
-      <View style={[styles.root_container, {flexDirection:'column'}]}>
+      <View style={PHB_STYLES.root_container}>
   
-        <View style={styles.header}>
-          <Text style={styles.header_text}>Personal Health Buddy</Text>
-        </View>
+        <PHB_Header navigation={navigation}/>
   
-        <View style={styles.body}>
-          <View style={[{backgroundColor:'#9BBEC8', marginVertical:20}]}>
+        <View style={PHB_STYLES.body}>
+          <View style={styles.recommendation}>
             <Text>
               You slept 6 hours last night, let's go for 7-8 tonight!
             </Text>
@@ -20,8 +20,8 @@ export function Home({ navigation }) {
 
           <View style={styles.center}>
             <ImageBackground style={styles.octogon} source={require("../assets/mainscore_octogon.png")}>
-              <Text style={[styles.body_text, {fontSize:28}]}>Your Score</Text>
-              <Text style={[styles.body_text, {fontSize:42}]}>83</Text>
+              <Text style={[PHB_STYLES.body_text, {fontSize:28}]}>Your Score</Text>
+              <Text style={[PHB_STYLES.body_text, {fontSize:42}]}>83</Text>
             </ImageBackground>
           </View>
           
@@ -39,44 +39,17 @@ export function Home({ navigation }) {
   }
   
 const styles = StyleSheet.create({
-    root_container: {
-        flex: 1,
-        backgroundColor: '#fff',
-    },
-
-    header:{
-        flex: 1,
-        backgroundColor: '#9BBEC8',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: '3%'
-    },
-
-    header_text:{
-        color:'white',
-        fontSize:30
-    },
-
-    center:{
-
+    recommendation:{
+      backgroundColor:'#9BBEC8', 
+      marginVertical:20,
+      bottom: '20%',
     },
 
     octogon:{
-        height:200,
-        width:200,
-        alignItems: 'center',
-        justifyContent: 'center',
+      height:200,
+      width:200,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
-
-    body:{
-        flex: 9,
-        backgroundColor: '#164863',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
-    body_text:{
-        color:'white',
-    }
 
 });
