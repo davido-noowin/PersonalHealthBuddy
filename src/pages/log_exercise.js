@@ -1,25 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
-import { CheckListRow } from '../components/checklist_row';
+
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
-import { PHB_Header } from '../components/header';
+import { PHB_Header, InfoContainer, PHB_Body } from '../phb_components'
 
 export function LogExercise({ navigation }) {
     return (
         <View style={PHB_STYLES.root_container}>
     
           <PHB_Header navigation={navigation}/>
-    
-          <View style={PHB_STYLES.body}>
-            
-            <View style={PHB_STYLES.center}>
-                <View style={PHB_STYLES.page_title_frame}>
-                    <Text style={[PHB_STYLES.page_title_text, PHB_STYLES.body_text]}>Exercise Logging</Text>
-                </View>
+
+          <PHB_Body scroll={true}>
+             <View style={PHB_STYLES.page_title_frame}>
+                <Text style={[PHB_STYLES.page_title_text, PHB_STYLES.body_text]}>Log Exercise</Text>
             </View>
-            
-            {/* add other octogons later */}
-          </View>
+            <InfoContainer title="Steps Taken: something">
+                <Text>
+                    Put graph here
+                </Text>
+            </InfoContainer>
+            <InfoContainer title="Workout List">
+                <Text>
+                    workout list
+                </Text>
+            </InfoContainer>
+          </PHB_Body>
     
           <StatusBar style="auto" />
         </View>

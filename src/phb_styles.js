@@ -34,26 +34,20 @@ export const PHB_STYLES = StyleSheet.create({
         fontSize:30
     },
 
-    center:{
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    scroll_view:{
-        height: '90%',
-        width: '50%',
-        margin: '10%',
+    body:{
+        backgroundColor: PHB_COLORS.DARK_BLUE,
+        height:'100%'
     },
 
-    body:{
+    body_flex:{
         flex: 9,
-        backgroundColor: PHB_COLORS.DARK_BLUE,
-        alignItems: 'center',
-        justifyContent: 'center',
     },
 
     body_text:{
         color:'white',
     },
+
+
     page_title_frame:{
         backgroundColor: PHB_COLORS.SLATE,
         margin: 20,
@@ -62,8 +56,14 @@ export const PHB_STYLES = StyleSheet.create({
     page_title_text:{
         fontSize: 30
     },
+
+
     border:{
         borderWidth: 5,
+    },
+    center:{
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
 });

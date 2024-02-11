@@ -16,7 +16,8 @@ export function InfoContainer({children, title}){
 
 const styles = StyleSheet.create({
     info_container:{
-        width: '90%',
+        width: '100%',
+        padding:30,
     },
     border:{
         borderWidth: 5,
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline'
     },
     info_container_body:{
-        height: 300
+        height: 300,
+        backgroundColor: PHB_COLORS.SLATE
     }
 });
