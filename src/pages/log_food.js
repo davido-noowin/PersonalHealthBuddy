@@ -8,10 +8,10 @@ export function LogFood({ navigation }) {
     return (
         <View style={PHB_STYLES.root_container}>
     
-            <PHB_Header style={[{flex:1, backgroundColor: PHB_COLORS.SLATE}]} navigation={navigation}/>
+            <PHB_Header navigation={navigation}/>
 
             <PHB_Body scroll={true}>
-                <View style={[PHB_STYLES.page_title_frame,{flex: 2}]}>
+                <View style={PHB_STYLES.page_title_frame}>
                     <Text style={[PHB_STYLES.page_title_text, PHB_STYLES.body_text]}>Log Food</Text>
                 </View>
 

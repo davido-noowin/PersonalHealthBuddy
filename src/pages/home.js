@@ -34,9 +34,13 @@ export function Home({ navigation }) {
               title="Log Food"
               onPress={() => navigation.navigate('LogFood')}
             />
-                      <Button
+            <Button
               title="Log Exercise"
               onPress={() => navigation.navigate('LogExercise')}
+            />
+             <Button
+              title="Log Wleeness"
+              onPress={() => navigation.navigate('LogWellness')}
             />
             </View>
 
