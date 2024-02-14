@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { PHB_Header, PHB_Body } from '../phb_components'
 
-export function Home({ navigation }) {
+export function HomePage({ navigation }) {
     return (
       <View style={PHB_STYLES.root_container}>
   
@@ -38,9 +38,13 @@ export function Home({ navigation }) {
               title="Log Exercise"
               onPress={() => navigation.navigate('LogExercise')}
             />
-             <Button
-              title="Log Wleeness"
+            <Button
+              title="Log Wellness"
               onPress={() => navigation.navigate('LogWellness')}
+            />
+            <Button
+              title="Login Page"
+              onPress={() => navigation.navigate('Login')}
             />
             </View>
 

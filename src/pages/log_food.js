@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { CheckListRow, PHB_Header, InfoContainer, PHB_Body } from '../phb_components'
 
-export function LogFood({ navigation }) {
+export function LogFoodPage({ navigation }) {
     return (
         <View style={PHB_STYLES.root_container}>
     
