@@ -4,7 +4,8 @@ import { StyleSheet, Text, View, Button, ImageBackground } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
-import { PHB_Header, PHB_Body } from '../phb_components'
+import { PHB_Header, PHB_Body, ScoreDisplay } from '../phb_components'
+
 
 export function HomePage({ navigation }) {
     return (
@@ -17,7 +18,7 @@ export function HomePage({ navigation }) {
 
             <View style={styles.recommendation}>
               <Text>
-                You slept 6 hours last night, let's go for 7-8 tonight!
+                You slept 5 hours last night, let's go for 7-8 tonight!
               </Text>
             </View>
 
@@ -28,25 +29,17 @@ export function HomePage({ navigation }) {
               </ImageBackground>
             </View>
             
-            {/* add other octogons later */}
-
-            <Button
-              title="Log Food"
-              onPress={() => navigation.navigate('LogFood')}
-            />
-            <Button
-              title="Log Exercise"
-              onPress={() => navigation.navigate('LogExercise')}
-            />
-            <Button
-              title="Log Wellness"
-              onPress={() => navigation.navigate('LogWellness')}
-            />
-            <Button
-              title="Login Page"
-              onPress={() => navigation.navigate('Login')}
-            />
+            <View style={styles.scoreDisplays}>
+              <ScoreDisplay navigation={navigation} score={87} title="Food" link='LogFood'/>
+              <ScoreDisplay navigation={navigation} score={72} title="Exercise" link='LogExercise'/>
+              
             </View>
+
+            <View style={styles.scoreDisplays}>
+               <ScoreDisplay navigation={navigation} score={91} title="Wellness" link='LogWellness'/>
+            </View>
+
+          </View>
 
         </PHB_Body>
   
@@ -71,5 +64,13 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+
+    scoreDisplays:{
+      //borderWidth: 5,
+      width: '80%',
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center"
+    }
 
 });
