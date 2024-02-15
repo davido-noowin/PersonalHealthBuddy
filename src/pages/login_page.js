@@ -4,35 +4,32 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 
 export function LoginPage({navigation}){
-    return (
-    <View style={[PHB_STYLES.root_container, styles.root]}>
-        <Text style={styles.title_text}>Personal Health Buddy</Text>
-        <View style={styles.login_panel}>
-            <TextInput 
-                style={styles.text_input}
-                placeholder="Email"
-                
-            />
-            <TextInput 
-                style={styles.text_input}
-                placeholder="Password"
-            />
-            <Button
-                style={styles.login_button}
-                title="Login"
-                onPress={() => navigation.navigate('Home')}
-            />
-            <Text style={styles.text}>
-                Forgot Password
-            </Text>
-            <Text style={styles.text} onPress={() => navigation.navigate('CreateAccount')}>
-                Create New Account
-            </Text>
+  return (
+		<View style={[PHB_STYLES.root_container, styles.root]}>
+			<Text style={styles.title_text}>Personal Health Buddy</Text>
+			<View style={styles.login_panel}>
+				<TextInput 
+					style={styles.text_input}
+					placeholder="Email"
+				/>
+				<TextInput 
+					style={styles.text_input}
+					placeholder="Password"
+				/>
+				<Button
+					style={styles.login_button}
+					title="Login"
+					onPress={() => navigation.navigate('Home')}
+				/>
+				<Text style={styles.text}>Forgot Password</Text>
 
-            
-        </View>
+				<Text style={styles.text} onPress={() => navigation.navigate('CreateAccount')}>
+					Create New Account
+				</Text>
+      
+      </View>
     </View>
-    )
+  )
 }
 
 const styles = StyleSheet.create({
@@ -68,6 +65,4 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         margin: 10
     }
-
-    
 })

@@ -19,9 +19,10 @@ export default function App() {
     {signedIn ? (
       <Drawer.Navigator initialRouteName='Home'>
         <Drawer.Screen name="Home" component={Pages.HomePage} />
-        <Drawer.Screen name="LogFood" component={Pages.LogFoodPage} />
-        <Drawer.Screen name="LogExercise" component={Pages.LogExercisePage} />
-        <Drawer.Screen name="LogWellness" component={Pages.LogWellnessPage} />
+        <Drawer.Screen name="Food" component={Pages.ViewFoodPage} />
+        <Drawer.Screen name="Exercise" component={Pages.ViewExercisePage} />
+        <Drawer.Screen name="Wellness" component={Pages.ViewWellnessPage} />
+        <Drawer.Screen name="Log Data" component={Pages.LogDataPage} />
 
       </Drawer.Navigator>
     ) : (

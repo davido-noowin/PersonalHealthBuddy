@@ -4,16 +4,13 @@ import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { CheckListRow, PHB_Header, InfoContainer, PHB_Body } from '../phb_components'
 
-export function LogWellnessPage({ navigation }) {
+export function ViewWellnessPage({ navigation }) {
     return (
         <View style={PHB_STYLES.root_container}>
     
-            <PHB_Header navigation={navigation}/>
+            {/* <PHB_Header navigation={navigation}/> */}
 
             <PHB_Body scroll={true}>
-                <View style={[PHB_STYLES.page_title_frame,{flex: 2}]}>
-                    <Text style={[PHB_STYLES.page_title_text, PHB_STYLES.body_text]}>Log Wellness</Text>
-                </View>
 
                 <InfoContainer title="Today's Screen Time: xhr ymin">
                     <Text>screen time graph</Text>

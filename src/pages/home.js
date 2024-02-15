@@ -1,6 +1,6 @@
 
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Button, ImageBackground, Pressable} from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
@@ -9,46 +9,49 @@ import { PHB_Header, PHB_Body, ScoreDisplay } from '../phb_components'
 
 export function HomePage({ navigation }) {
     return (
-      <View style={PHB_STYLES.root_container}>
+      	<View style={PHB_STYLES.root_container}>
   
-        <PHB_Header navigation={navigation}/>
+        	{/* <PHB_Header navigation={navigation}/> */}
 
-        <PHB_Body scroll={false}>
-          <View style={PHB_STYLES.center}>
+        	<PHB_Body scroll={false}>
+			<View style={PHB_STYLES.center}>
 
-            <View style={styles.recommendation}>
-              <Text>
-                You slept 5 hours last night, let's go for 7-8 tonight!
-              </Text>
-            </View>
+				<View style={styles.recommendation}>
+					<Text>
+						You slept 5 hours last night, let's go for 7-8 tonight!
+					</Text>
+					</View>
 
-            <View style={PHB_STYLES.center}>
-              <ImageBackground style={styles.octogon} source={require("../assets/mainscore_octogon.png")}>
-                <Text style={[PHB_STYLES.body_text, {fontSize:28}]}>Your Score</Text>
-                <Text style={[PHB_STYLES.body_text, {fontSize:42}]}>83</Text>
-              </ImageBackground>
-            </View>
-            
-            <View style={styles.scoreDisplays}>
-              <ScoreDisplay navigation={navigation} score={87} title="Food" link='LogFood'/>
-              <ScoreDisplay navigation={navigation} score={72} title="Exercise" link='LogExercise'/>
-              
-            </View>
+					<View style={PHB_STYLES.center}>
+					<ImageBackground style={styles.octogon} source={require("../assets/mainscore_octogon.png")}>
+						<Text style={[PHB_STYLES.body_text, {fontSize:28}]}>Your Score</Text>
+						<Text style={[PHB_STYLES.body_text, {fontSize:42}]}>83</Text>
+					</ImageBackground>
+					</View>
+					
+					<View style={styles.scoreDisplays}>
+					<ScoreDisplay navigation={navigation} score={87} title="Food" link='ViewFood'/>
+					<ScoreDisplay navigation={navigation} score={72} title="Exercise" link='ViewExercise'/>
+					</View>
 
-            <View style={styles.scoreDisplays}>
-               <ScoreDisplay navigation={navigation} score={91} title="Wellness" link='LogWellness'/>
-            </View>
+					<View style={styles.scoreDisplays}>
+					<ScoreDisplay navigation={navigation} score={91} title="Wellness" link='ViewWellness'/>
+					</View>
 
-          </View>
-
-        </PHB_Body>
+					<View style={styles.recommendation}>
+					<Pressable onPress={()=>navigate('LogDataPage')}>
+						<Text>Log Data</Text>
+					</Pressable>
+				</View>
+			</View>
+        	</PHB_Body>
   
           
   
-        <StatusBar style="auto" />
-      </View>
+        	<StatusBar style="auto" />
+      	</View>
     );
-  }
+}
   
 const styles = StyleSheet.create({
     recommendation:{
