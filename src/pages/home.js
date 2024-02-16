@@ -7,7 +7,10 @@ import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { PHB_Header, PHB_Body, ScoreDisplay } from '../phb_components'
 
 
+
 export function HomePage({ navigation }) {
+
+	const recommend_text = "You slept 5 hours last night, let's go for 7-8 tonight!"
     return (
       	<View style={PHB_STYLES.root_container}>
   
@@ -18,7 +21,7 @@ export function HomePage({ navigation }) {
 
 				<View style={styles.recommendation}>
 					<Text>
-						You slept 5 hours last night, let's go for 7-8 tonight!
+						{recommend_text}
 					</Text>
 					</View>
 
@@ -30,16 +33,16 @@ export function HomePage({ navigation }) {
 					</View>
 					
 					<View style={styles.scoreDisplays}>
-					<ScoreDisplay navigation={navigation} score={87} title="Food" link='ViewFood'/>
-					<ScoreDisplay navigation={navigation} score={72} title="Exercise" link='ViewExercise'/>
+					<ScoreDisplay navigation={navigation} score={87} title="Food" link='Food'/>
+					<ScoreDisplay navigation={navigation} score={72} title="Exercise" link='Exercise'/>
 					</View>
 
 					<View style={styles.scoreDisplays}>
-					<ScoreDisplay navigation={navigation} score={91} title="Wellness" link='ViewWellness'/>
+					<ScoreDisplay navigation={navigation} score={91} title="Wellness" link='Wellness'/>
 					</View>
 
 					<View style={styles.recommendation}>
-					<Pressable onPress={()=>navigate('LogDataPage')}>
+					<Pressable onPress={()=>navigation.navigate('Log Data')}>
 						<Text>Log Data</Text>
 					</Pressable>
 				</View>
