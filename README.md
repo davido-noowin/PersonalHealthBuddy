@@ -12,7 +12,20 @@ install all dependancies with `npm install`
 
 initiate development server with `npx expo start`
 
+IGNORE vulnerabilities
+
 Connect mobile device by scanning qr code using camera on IOS or expo go app on android
+
+
+### Backend Setup
+
+python version 3.12.2
+
+to install:
+pip install fastapi
+pip install uvicorn[standard]
+
+to run: python -m uvicorn main:app --reload
 
 ---
 ### References:
