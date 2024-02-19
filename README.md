@@ -19,13 +19,13 @@ Connect mobile device by scanning qr code using camera on IOS or expo go app on 
 
 ### Backend Setup
 
-python version 3.12.2
+python version 3.12.x
 
 to install:
 pip install fastapi
 pip install uvicorn[standard]
 
-to run: python -m uvicorn main:app --reload
+to run: python -m uvicorn main:app --reload --host 0.0.0.0
 
 ---
 ### References:

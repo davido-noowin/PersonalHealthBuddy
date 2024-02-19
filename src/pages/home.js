@@ -1,4 +1,4 @@
-
+import React, { useState, useEffect } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ImageBackground, Pressable} from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -9,6 +9,23 @@ import { PHB_Header, PHB_Body, ScoreDisplay } from '../phb_components'
 
 
 export function HomePage({ navigation }) {
+	const [data, setData] = useState([]);
+
+	const fetchData = async () => {
+		try {
+			const res = await fetch("http://myipv4address/");
+			const data = await res.json();
+			setData(data);
+			console.log(data);
+		}
+		catch (error) {
+			console.log("Error fetching data:", error);
+		}
+	};
+
+	useEffect(() => {
+		fetchData();
+	  }, []);
 
 	const recommend_text = "You slept 5 hours last night, let's go for 7-8 tonight!"
     return (
@@ -21,13 +38,13 @@ export function HomePage({ navigation }) {
 
 				<View style={styles.recommendation}>
 					<Text>
-						{recommend_text}
+						{data['message']}
 					</Text>
 					</View>
 
 					<View style={PHB_STYLES.center}>
 					<ImageBackground style={styles.octogon} source={require("../assets/mainscore_octogon.png")}>
-						<Text style={[PHB_STYLES.body_text, {fontSize:28}]}>Your Score</Text>
+						<Text style={[PHB_STYLES.body_text, {fontSize:28}]}> Your Score </Text>
 						<Text style={[PHB_STYLES.body_text, {fontSize:42}]}>83</Text>
 					</ImageBackground>
 					</View>
@@ -55,6 +72,8 @@ export function HomePage({ navigation }) {
       	</View>
     );
 }
+
+
   
 const styles = StyleSheet.create({
     recommendation:{
