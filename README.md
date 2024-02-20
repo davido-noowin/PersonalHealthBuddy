@@ -23,9 +23,10 @@ python version 3.12.x
 
 to install:
 pip install fastapi
+pip install mysql
 pip install uvicorn[standard]
 
-to run: python -m uvicorn main:app --reload --host 0.0.0.0
+to run: python -m uvicorn main:app --reload --host 0.0.0.0 (enter your own ip address)
 
 ---
 ### References:
@@ -34,3 +35,4 @@ to run: python -m uvicorn main:app --reload --host 0.0.0.0
 - React Native core components: https://reactnative.dev/docs/components-and-apis
 - Expo SDK reference (for device features): https://docs.expo.dev/versions/latest/
 - React Navigation https://reactnavigation.org/docs/getting-started
+- MySQL in Python https://www.w3schools.com/python/python_mysql_getstarted.asp
