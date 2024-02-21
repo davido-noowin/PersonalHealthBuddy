@@ -1,7 +1,9 @@
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
 from database_connection import datasource
-from pydantic import BaseModel
+from root import router as rootRouter
+from userLogin import router as userLoginRouter
+from createUser import router as createUserRouter
+
 
 cursor = datasource.cursor()
 cursor.execute("SHOW DATABASES;")
@@ -10,27 +12,6 @@ for x in cursor:
 
 app = FastAPI()
 
-class LoginRequest(BaseModel):
-    '''
-    This is a class that the login api call expects to see. This comes from the data sent over through React Native
-    using the fetch api and POST method
-    '''
-    Email: str
-    Password: str
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.post("/api/create-user")
-async def createUser():
-    pass
-
-
-@app.post("/api/login")
-async def login(request: LoginRequest):
-    # prints out email and password from react native if successful
-    # TODO: error handle other status codes and do the proper logic for post
-    print(request)
-    return JSONResponse(content={"message": "Login successful"}, status_code=200)
+app.include_router(rootRouter)
+app.include_router(userLoginRouter)
+app.include_router(createUserRouter)
