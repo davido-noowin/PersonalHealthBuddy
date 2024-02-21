@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 
+
+
 export function CreateAccountPage({navigation}){
     
     return (

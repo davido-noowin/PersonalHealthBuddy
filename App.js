@@ -10,7 +10,7 @@ import * as Pages from './src/phb_pages'
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-const signedIn = true;
+const signedIn = false;
 
 export default function App() {
 
