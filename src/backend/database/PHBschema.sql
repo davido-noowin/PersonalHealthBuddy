@@ -53,3 +53,14 @@ CREATE TABLE wellness_log (
     sleep_start 				TIME,
     sleep_end 					TIME
 );
+
+CREATE TABLE user_score_log (
+log_id 							INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+user_id 						INTEGER,
+FOREIGN KEY (user_id) 			REFERENCES users(user_id),
+exercise_score 					FLOAT,
+nutrient_score 					FLOAT,
+wellness_score					FLOAT,
+total_score 					FLOAT,
+date 							DATE
+);
