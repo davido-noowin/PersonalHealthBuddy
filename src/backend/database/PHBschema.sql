@@ -18,7 +18,7 @@ CREATE TABLE exercise (
 );
 
 CREATE TABLE exercise_log (
-	exercise_log_id 			INTEGER NOT NULL PRIMARY KEY,
+	exercise_log_id 			INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_id 					INTEGER,
     exercise_id 				INTEGER,
     FOREIGN KEY (user_id) 		REFERENCES users(user_id),
@@ -34,7 +34,7 @@ CREATE TABLE nutrient (
 );
 
 CREATE TABLE nutrient_log (
-	nutrient_log_id 			INTEGER NOT NULL PRIMARY KEY,
+	nutrient_log_id 			INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_id 					INTEGER,
     nutrient_id 				INTEGER,
     FOREIGN KEY (user_id) 		REFERENCES users(user_id),
@@ -44,7 +44,7 @@ CREATE TABLE nutrient_log (
 );
 
 CREATE TABLE wellness_log (
-	wellness_log_id 			INTEGER NOT NULL PRIMARY KEY,
+	wellness_log_id 			INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_id 					INTEGER,
     FOREIGN KEY (user_id) 		REFERENCES users(user_id),
     date 						DATE NOT NULL,

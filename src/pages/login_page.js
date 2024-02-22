@@ -13,6 +13,40 @@ const schema = yup.object().shape({
 })
 
 
+/* API call to backend */
+function login(data, navigation) {
+    console.log("SUBMITTED");
+    // console.log(data);
+
+    // api call to login
+    fetch("http://192.168.0.25:8000/api/login", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    })
+    .then((response) => response.json())
+    .then((responseData) => {
+        console.log(JSON.stringify(responseData)); // logs the server response which should be 200 if successful
+        if (responseData.success === true) {
+            console.log("correct login info");
+            
+            // TODO: fix the navigation
+            navigation.navigate('Home');
+
+
+        }
+        else {
+            console.log("wrong login");
+            // let the user know that they put in the wrong credentials
+        }
+    })
+    .catch((error) => console.error('Error:', error));
+}
+
+
 export function LoginPage({navigation}){
     const { control, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
@@ -23,30 +57,7 @@ export function LoginPage({navigation}){
         reValidateMode: 'onSubmit'
     })
 
-    console.log("errors: ", errors)
-
-
-    function login(data) {
-        console.log("SUBMITTED");
-        console.log(data);
-
-        // api call to login
-        fetch("http://192.168.0.25:8000/api/login", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data)
-        })
-        .then((response) => response.json())
-        .then((responseData) => {
-            console.log(JSON.stringify(responseData)); // logs the server response which should be 200 if successful
-        })
-        .catch((error) => console.error('Error:', error));
-    }
-
-
+    // console.log("errors: ", errors)
   return (
 		<View style={[PHB_STYLES.root_container, styles.root]}>
 			<Text style={styles.title_text}>Personal Health Buddy</Text>
@@ -78,11 +89,11 @@ export function LoginPage({navigation}){
                         />
                     )}
                 />
-                <Text style={styles.error_text}>{errors.Password?.message}</Text> 
+                <Text style={styles.error_text}>{errors.Password?.message}</Text>
 				<Button
 					style={styles.login_button}
 					title="Login"
-					onPress={handleSubmit(login)}
+					onPress={handleSubmit((data) => login(data, navigation))}
 				/>
 				<Text style={styles.text}>Forgot Password</Text>
 
