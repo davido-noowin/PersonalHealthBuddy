@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
@@ -35,8 +34,6 @@ function login(data, navigation) {
             
             // TODO: fix the navigation
             navigation.navigate('Home');
-
-
         }
         else {
             console.log("wrong login");

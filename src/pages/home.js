@@ -4,8 +4,7 @@ import { StyleSheet, Text, View, Button, ImageBackground, Pressable} from 'react
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
-import { PHB_Header, PHB_Body, ScoreDisplay } from '../phb_components'
-
+import { PHB_Body, ScoreDisplay } from '../phb_components'
 
 
 export function HomePage({ navigation }) {
@@ -30,9 +29,6 @@ export function HomePage({ navigation }) {
 	const recommend_text = "You slept 5 hours last night, let's go for 7-8 tonight!"
     return (
       	<View style={PHB_STYLES.root_container}>
-  
-        	{/* <PHB_Header navigation={navigation}/> */}
-
         	<PHB_Body scroll={false}>
 			<View style={PHB_STYLES.center}>
 
@@ -65,8 +61,6 @@ export function HomePage({ navigation }) {
 				</View>
 			</View>
         	</PHB_Body>
-  
-          
   
         	<StatusBar style="auto" />
       	</View>

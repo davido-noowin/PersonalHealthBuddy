@@ -1,4 +1,3 @@
-export {PHB_Header} from "./components/phb_header";
 export {PHB_Body} from "./components/phb_body";
 export {CheckListRow} from "./components/checklist_row";
 export {InfoContainer} from "./components/info_container";
