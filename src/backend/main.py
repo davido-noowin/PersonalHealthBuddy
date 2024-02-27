@@ -5,6 +5,7 @@ from userLogin import router as userLoginRouter
 from createUser import router as createUserRouter
 from getUserData import router as userDataRouter
 from getFoodLog import router as foodLogRouter
+from getExerciseLog import router as exerciseLogRouter
 
 
 app = FastAPI()
@@ -14,3 +15,4 @@ app.include_router(userLoginRouter)
 app.include_router(createUserRouter)
 app.include_router(userDataRouter)
 app.include_router(foodLogRouter)
+app.include_router(exerciseLogRouter)

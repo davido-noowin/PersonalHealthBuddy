@@ -23,15 +23,14 @@ async def getUserData(user_id: int):
         cursor = datasource.cursor()
         cursor.execute(USER_QUERY, (user_id,))
         result = cursor.fetchone()
-        cursor.execute("DESCRIBE users")
-        metadata = cursor.fetchall()
+        metadata = [i[0] for i in cursor.description]
     except Exception as e:
         print(f'Unable to execute the query: {e}')
 
     if result and metadata:
         user_data_result_set = {}
         for attribute, value in zip(metadata, result):
-            user_data_result_set[attribute[0]] = value
+            user_data_result_set[attribute] = value
         return JSONResponse(content={
             "message" : user_data_result_set,
             "success" : True,
