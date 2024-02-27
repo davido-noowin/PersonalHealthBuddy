@@ -1,17 +1,22 @@
-
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { signedIn } from './auth';
 
 import * as Pages from './src/phb_pages'
+import { useEffect } from 'react';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-const signedIn = true;
+
 
 export default function App() {
+  console.log('app sign in:', signedIn);
+  useEffect(() => {
+
+  }, []);
 
   return (
     <NavigationContainer>

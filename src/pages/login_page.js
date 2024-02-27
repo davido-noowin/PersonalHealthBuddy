@@ -3,6 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { updateSignIn, setUserID } from '../../auth';
 
 
 /* Form Validation */
@@ -32,7 +33,8 @@ function login(data, navigation) {
         if (responseData.success === true) {
             console.log("correct login info");
             
-            // TODO: fix the navigation
+            updateSignIn(true);
+            setUserID(responseData['user-id']);
             navigation.navigate('Home');
         }
         else {
