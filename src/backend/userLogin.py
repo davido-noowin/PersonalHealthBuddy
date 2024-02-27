@@ -39,7 +39,7 @@ async def login(request: LoginRequest):
         cursor.execute(LOGIN_QUERY, (request.Email, request.Password))
         result = cursor.fetchone()
     except Exception as e:
-        print(f'Unable to execute the query: {e}')
+        print(f'Unable to execute the query and log the user in: {e}')
 
 
     # print("query result", result)
