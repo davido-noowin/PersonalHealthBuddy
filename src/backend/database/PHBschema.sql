@@ -31,8 +31,9 @@ CREATE TABLE exercise_log (
 CREATE TABLE step_log (
     step_log_id                 INTEGER NOT NULL PRIMARY KEY,
     user_id                     INTEGER NOT NULL,
-    steps                       INTEGER,
+    steps                       INTEGER NOT NULL,
     date 						DATE NOT NULL
+    time                        TIME NOT NULL
 )
 
 CREATE TABLE nutrient (
