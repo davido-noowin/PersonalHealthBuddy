@@ -19,7 +19,7 @@ CREATE TABLE exercise (
 
 CREATE TABLE exercise_log (
 	exercise_log_id 			INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    user_id 					INTEGER,
+    user_id 					INTEGER NOT NULL,
     exercise_id 				INTEGER,
     FOREIGN KEY (user_id) 		REFERENCES users(user_id),
     FOREIGN KEY (exercise_id) 	REFERENCES exercise(exercise_id),
@@ -28,6 +28,13 @@ CREATE TABLE exercise_log (
     amount 						INTEGER NOT NULL
 );
 
+CREATE TABLE step_log (
+    step_log_id                 INTEGER NOT NULL PRIMARY KEY,
+    user_id                     INTEGER NOT NULL,
+    steps                       INTEGER,
+    date 						DATE NOT NULL
+)
+
 CREATE TABLE nutrient (
 	nutrient_id 				INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	category 					VARCHAR(50)
@@ -35,7 +42,7 @@ CREATE TABLE nutrient (
 
 CREATE TABLE nutrient_log (
 	nutrient_log_id 			INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    user_id 					INTEGER,
+    user_id 					INTEGER NOT NULL,
     nutrient_id 				INTEGER,
     FOREIGN KEY (user_id) 		REFERENCES users(user_id),
     FOREIGN KEY (nutrient_id) 	REFERENCES nutrient(nutrient_id),
@@ -45,7 +52,7 @@ CREATE TABLE nutrient_log (
 
 CREATE TABLE wellness_log (
 	wellness_log_id 			INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    user_id 					INTEGER,
+    user_id 					INTEGER NOT NULL,
     FOREIGN KEY (user_id) 		REFERENCES users(user_id),
     date 						DATE NOT NULL,
     screen_duration 			TIME,
