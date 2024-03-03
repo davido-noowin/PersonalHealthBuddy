@@ -8,14 +8,14 @@ router = APIRouter()
 
 
 @router.get("/api/get-food-log")
-async def getFoodLog(user_id: int, day: str):
+async def getFoodLog(username: int, date: str):
     # TODO: this query does not account for the types of nutrients make this query useful by adding
     #       the actual nutrients
-    print("request", user_id, day)
+    print("request", username, date)
     FOOD_LOG_QUERY = '''
     SELECT *
-    FROM nutrient_log
-    WHERE user_id = %s AND date = %s
+    FROM food
+    WHERE username = %s AND date = %s
     '''
     result = None
     metadata = None
@@ -23,7 +23,7 @@ async def getFoodLog(user_id: int, day: str):
 
     try:
         cursor = datasource.cursor()
-        cursor.execute(FOOD_LOG_QUERY, (user_id, day))
+        cursor.execute(FOOD_LOG_QUERY, (username, date))
         result = cursor.fetchone()
         metadata = [i[0] for i in cursor.description]
     except Exception as e:

@@ -8,12 +8,12 @@ router = APIRouter()
 
 
 @router.get("/api/get-score")
-async def getFoodLog(user_id: int, day: str):
-    print("request", user_id, day)
+async def getFoodLog(username: int, date: str):
+    print("request", username, date)
     SCORE_LOG_QUERY = '''
     SELECT *
-    FROM user_score_log
-    WHERE user_id = %s AND date = %s
+    FROM score
+    WHERE username = %s AND date = %s
     '''
     result = None
     metadata = None
@@ -21,7 +21,7 @@ async def getFoodLog(user_id: int, day: str):
 
     try:
         cursor = datasource.cursor()
-        cursor.execute(SCORE_LOG_QUERY, (user_id, day))
+        cursor.execute(SCORE_LOG_QUERY, (username, date))
         result = cursor.fetchall()
         metadata = [i[0] for i in cursor.description]
     except Exception as e:

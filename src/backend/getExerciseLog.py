@@ -8,13 +8,12 @@ router = APIRouter()
 
 
 @router.get("/api/get-exercise-log")
-async def getFoodLog(user_id: int, day: str):
-    # TODO: this query does not account for the types of exercises 
-    print("request", user_id, day)
+async def getFoodLog(username: int, date: str):
+    print("request", username, date)
     EXERCISE_LOG_QUERY = '''
     SELECT *
-    FROM exercise_log AS el
-    WHERE el.user_id = %s AND el.date = %s
+    FROM exercise
+    WHERE username = %s AND date = %s
     '''
     result = None
     metadata = None
@@ -22,7 +21,7 @@ async def getFoodLog(user_id: int, day: str):
 
     try:
         cursor = datasource.cursor()
-        cursor.execute(EXERCISE_LOG_QUERY, (user_id, day))
+        cursor.execute(EXERCISE_LOG_QUERY, (username, date))
         result = cursor.fetchone()
         metadata = [i[0] for i in cursor.description]
     except Exception as e:
