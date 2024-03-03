@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         color: PHB_COLORS.WHITE,
         margin: 10,
         fontSize: 20,
-        textDecorationLine: 'underline'
+        // textDecorationLine: 'underline'
     },
     info_container_body:{
         height: 300,

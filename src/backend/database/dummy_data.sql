@@ -1,4 +1,6 @@
-INSERT INTO users ("email", "first_name", "last_name", "age", "height", "weight", "password") 
+USE PHB;
+
+INSERT INTO users (email, first_name, last_name, age, height, weight, password) 
 VALUES 
     ('test@gmail.com', "Test", "User", 20, 30, 40, "testuser"),
     ('pwilgar0@goo.ne.jp', 'Prentiss', 'Wilgar', 62, 69.78, 286.59, 'zT2!X)%g'),
@@ -53,7 +55,7 @@ VALUES
     ('jskuse1d@squarespace.com', 'Jessalin', 'Skuse', 55, 75.71, 162.56, 'oC1''SJ$3CAD~''Ag_');
 
 
-INSERT INTO 'exercise' ('category')
+INSERT INTO exercise (category)
 VALUES
     ("jogging"),
     ("swimming"),
@@ -66,7 +68,7 @@ VALUES
     ("rock climbing"),
     ("weight training");
 
-INSERT INTO 'exercise_log' ('user_id', 'exercise_id', 'date', 'time', 'amount')
+INSERT INTO exercise_log (user_id, exercise_id, date, duration, amount)
 VALUES
     (1, 3, '2023-04-04', '20:38:53', 7),
     (1, 3, '2023-07-17', '20:53:52', 6),
@@ -169,7 +171,7 @@ VALUES
     (48, 3, '2023-02-26', '23:56:35', 27),
     (22, 8, '2023-03-18', '21:34:31', 30);
 
-INSERT INTO 'nutrient' ('category')
+INSERT INTO nutrient (category)
 VALUES
     ("carbohydrates"),
     ("proteins"),
@@ -178,7 +180,7 @@ VALUES
     ("minerals"),
     ("fiber");
 
-INSERT INTO 'nutrient_log' ('user_id', 'nutrient_id', 'date', 'amount')
+INSERT INTO nutrient_log (user_id, nutrient_id, date, amount)
 VALUES
     (1, 4, '2023-12-11', 49),
     (1, 3, '2023-08-18', 21),
