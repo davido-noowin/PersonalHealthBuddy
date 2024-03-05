@@ -34,7 +34,6 @@ CREATE TABLE wellness (
     date 						DATE NOT NULL,
     screen_duration 			TIME,
     sleep_duration 				TIME,
-    mood 					    SET("happy", "sad", "neutral"),
     PRIMARY KEY (username, date),
     FOREIGN KEY (username) 		REFERENCES users(username),
 );
@@ -42,8 +41,8 @@ CREATE TABLE wellness (
 CREATE TABLE score (
     username 					VARCHAR(50),
     date 						DATE NOT NULL,
-    score_exercise 				FLOAT NOT NULL,
-    score_food 				    FLOAT NOT NULL,
+    score_food				    FLOAT NOT NULL,
+    score_exercise			    FLOAT NOT NULL,
     score_wellness 				FLOAT NOT NULL,
     recommendation 				VARCHAR(100),
     PRIMARY KEY (username, date),
