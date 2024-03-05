@@ -6,15 +6,16 @@ from datetime import date
 
 router = APIRouter()
 
-@router.get("/api/get-food")
-async def getFood(username: int, key_date: str):
-    print("request", username, key_date)
-    FOOD_LOG_QUERY = '''
+FOOD_LOG_QUERY = '''
     SELECT *
     FROM food
     WHERE username = %s
     AND date >= DATE_SUB(CURDATE(), INTERVAL 5 DAY);
     '''
+
+@router.get("/api/get-food")
+async def getFood(username: str, key_date: str):
+    print("request", username, key_date)
     result = None
 
     try:
@@ -36,6 +37,6 @@ async def getFood(username: int, key_date: str):
     
     else:
         return JSONResponse(content={
-            "message": "Failed to get pull the wellness log of the user",
+            "message": "Failed to get pull the food log of the user",
             "success" : False
             }, status_code=500)

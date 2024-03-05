@@ -6,6 +6,18 @@ from fastapi.responses import JSONResponse
 
 router = APIRouter()
 
+CREATE_USER_QUERY = '''
+INSERT INTO users (email, first_name, last_name, age, height, weight, password)
+    VALUES
+    (%s, %s, %s, %s, %s, %s, %s)
+    '''
+
+RETURN_ID_QUERY = '''
+    SELECT user_id
+    FROM users
+    WHERE email = %s
+    '''
+
 
 class CreateUserRequest(BaseModel):
     '''
@@ -24,19 +36,8 @@ class CreateUserRequest(BaseModel):
 
 @router.post("/api/create-user")
 async def createUser(request: CreateUserRequest):
-    CREATE_USER_QUERY = '''
-    INSERT INTO users (email, first_name, last_name, age, height, weight, password)
-    VALUES
-    (%s, %s, %s, %s, %s, %s, %s)
-    '''
     result = None
     cursor = None
-
-    RETURN_ID_QUERY = '''
-    SELECT user_id
-    FROM users
-    WHERE email = %s
-    '''
 
     try:
         cursor = datasource.cursor()

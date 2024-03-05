@@ -6,15 +6,16 @@ from datetime import date, timedelta
 
 router = APIRouter()
 
-@router.get("/api/get-wellness")
-async def getWellness(username: int, key_date: str):
-    print("request", username, key_date)
-    WELLNESS_LOG_QUERY = '''
+WELLNESS_LOG_QUERY = '''
     SELECT *
     FROM wellness
     WHERE username = %s
     AND date >= DATE_SUB(CURDATE(), INTERVAL 5 DAY);
     '''
+
+@router.get("/api/get-wellness")
+async def getWellness(username: str, key_date: str):
+    print("request", username, key_date)
     result = None
 
     try:

@@ -6,6 +6,13 @@ from database_connection import datasource
 
 router = APIRouter()
 
+# We do it this way to prevent SQL injections
+LOGIN_QUERY = '''
+    SELECT *
+    FROM users
+    WHERE email = %s AND password = %s
+    '''
+
 
 class LoginRequest(BaseModel):
     '''
@@ -23,14 +30,6 @@ async def login(request: LoginRequest):
     Grabs email and password from react native  and logs the user in if successful
     '''
     print("request", request)
-    
-
-    # We do it this way to prevent SQL injections
-    LOGIN_QUERY = '''
-    SELECT *
-    FROM users
-    WHERE email = %s AND password = %s
-    '''
     result = None
     cursor = None
 

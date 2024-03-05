@@ -6,15 +6,16 @@ from datetime import date, timedelta
 
 router = APIRouter()
 
-@router.get("/api/get-exercise")
-async def getExercise(username: int, key_date: str):
-    print("request", username, key_date)
-    EXERCISE_LOG_QUERY = '''
+EXERCISE_LOG_QUERY = '''
     SELECT *
     FROM exercise
     WHERE username = %s
     AND date >= DATE_SUB(CURDATE(), INTERVAL 5 DAY);
     '''
+
+@router.get("/api/get-exercise")
+async def getExercise(username: str, key_date: str):
+    print("request", username, key_date)
     result = None
 
     try:
@@ -35,6 +36,6 @@ async def getExercise(username: int, key_date: str):
             }, status_code=200)
     else:
         return JSONResponse(content={
-            "message": "Failed to get pull the wellness log of the user",
+            "message": "Failed to get pull the exercise log of the user",
             "success" : False
             }, status_code=500)

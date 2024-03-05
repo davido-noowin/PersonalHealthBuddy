@@ -40,7 +40,7 @@ INSERT_SCORE_REC = '''
 
 
 @router.get('/api/get-score-rec')
-async def getScoreRec(username, key_date):
+async def getScoreRec(username: str, key_date: str):
     result = None
 
     try:
