@@ -20,18 +20,24 @@ async def getExercise(username: str, key_date: str):
 
     try:
         cursor = datasource.cursor()
-        cursor.execute(EXERCISE_LOG_QUERY, (username, key_date))
+        cursor.execute(EXERCISE_LOG_QUERY, (username, ))
         result = cursor.fetchall()
     except Exception as e:
         print(f'Unable to execute the query: {e}')
 
     if result:
+        exercise_log = {}
+        # print(result)
         for day_vals in result:
-            for item in day_vals:
-                if type(item) == date or type(item) == timedelta:
-                    item = str(item) # date types can't be processed by JSON
+            exercise_log[str(day_vals[1])] = {
+                'username' : day_vals[0],
+                'date' : str(day_vals[1]),
+                'duration' : str(day_vals[2]),
+                'type' : str(day_vals[3]),
+                'steps' : day_vals[4]
+            }
         return JSONResponse(content={
-            "message" : result,
+            "log" : exercise_log,
             "success" : True,
             }, status_code=200)
     else:

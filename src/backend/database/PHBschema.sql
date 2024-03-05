@@ -7,7 +7,7 @@ CREATE TABLE users (
     password 					VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE excercise (
+CREATE TABLE exercise (
     username 					VARCHAR(50),
     date 						DATE NOT NULL,
     duration 					TIME,
