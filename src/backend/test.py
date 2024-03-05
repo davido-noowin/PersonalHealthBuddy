@@ -1,5 +1,7 @@
-food_score_arr = [5,2,3,4,5]
-title = ['fruits', 'vegetables', 'protein', 'grain', 'dairy']
-rec = f'Eat more {title[food_score_arr.index(min(food_score_arr))]}!'
 
-print(rec)
+net_st = 45
+
+st_score = max(0, 30 - 5*max((net_st/5)-3, 0))
+
+
+print(st_score)
