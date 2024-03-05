@@ -1,4 +1,4 @@
-DROP DATABASDE IF EXISTS PHB;
+DROP DATABASE IF EXISTS PHB;
 CREATE DATABASE PHB;
 USE PHB;
 
@@ -13,8 +13,8 @@ CREATE TABLE excercise (
     duration 					TIME,
     type 						SET("cardio", "strength", "yoga", "sport", "pilates"),
     steps 						INT NOT NULL,
-    PRIMARY KEY (username, date)
-    FOREIGN KEY (username) 		REFERENCES users(username),
+    PRIMARY KEY (username, date),
+    FOREIGN KEY (username) 		REFERENCES users(username)
 );
 
 CREATE TABLE food (
@@ -26,7 +26,7 @@ CREATE TABLE food (
     grains 						BOOLEAN,
     dairy 						BOOLEAN,
     PRIMARY KEY (username, date),
-    FOREIGN KEY (username) 		REFERENCES users(username),
+    FOREIGN KEY (username) 		REFERENCES users(username)
 );
 
 CREATE TABLE wellness (
@@ -35,7 +35,7 @@ CREATE TABLE wellness (
     screen_duration 			TIME,
     sleep_duration 				TIME,
     PRIMARY KEY (username, date),
-    FOREIGN KEY (username) 		REFERENCES users(username),
+    FOREIGN KEY (username) 		REFERENCES users(username)
 );
 
 CREATE TABLE score (
@@ -46,5 +46,5 @@ CREATE TABLE score (
     score_wellness 				FLOAT NOT NULL,
     recommendation 				VARCHAR(100),
     PRIMARY KEY (username, date),
-    FOREIGN KEY (username) 		REFERENCES users(username),
+    FOREIGN KEY (username) 		REFERENCES users(username)
 );
