@@ -29,15 +29,14 @@ WELLNESS_LOG_QUERY = '''
 SCORE_REC_QUERY = '''
     SELECT *
     FROM score
-    WHERE username = %s
-    AND date >= DATE_SUB(CURDATE(), INTERVAL 5 DAY);
+    WHERE username = %s AND date = %s;
     '''
 
 INSERT_SCORE_REC = '''
-        INSERT INTO score
-        (username, date, food_score, exercise_score, wellness_score, recommendation)
-        VALUES (%s, %s, %s, %s, %s, %s);
-        '''
+    INSERT INTO score
+    (username, date, food_score, exercise_score, wellness_score, recommendation)
+    VALUES (%s, %s, %s, %s, %s, %s);
+    '''
 
 
 @router.get('/api/get-score-rec')
@@ -47,7 +46,7 @@ async def getScoreRec(username, key_date):
     try:
         cursor = datasource.cursor()
         cursor.execute(SCORE_REC_QUERY, (username, key_date))
-        result = cursor.fetchall()
+        result = cursor.fetchone()
         metadata = [i[0] for i in cursor.description]
     except Exception as e:
         print(f'Unable to retrieve the scores of the user: {e}')
@@ -55,7 +54,11 @@ async def getScoreRec(username, key_date):
     # the score and recommendation already exists
     if result and metadata:
         ret = {}
-        for attribute, value in zip(metadata, result): ret[attribute] = value
+        for attribute, item in zip(metadata, result): 
+            if type(item) == date or type(item) == timedelta:
+                ret[attribute] = str(item) 
+            else: 
+                ret[attribute] = item
         return JSONResponse(content={
             "message" : ret,
             "success" : True,
@@ -138,6 +141,8 @@ def foodScore(food_log):
 
     food_score_arr = [fruit_score, veg_score, protein_score, grain_score, dairy_score]
     food_score = sum(food_score_arr)*4*5*5/len(food_log)
+
+    # select the category with the lowest sum
     title = ['fruits', 'vegetables', 'protein', 'grain', 'dairy']
     rec = f'For a healthier diet, eat more {title[food_score_arr.index(min(food_score_arr))]}.'
 
@@ -198,6 +203,7 @@ def wellnessScore(wellness_log):
 def fixType(log):
     for day_vals in log:
         for item in day_vals:
+            # date or time types can't be processed by JSON
             if type(item) == date or type(item) == timedelta:
-                item = str(item) # date types can't be processed by JSON
+                item = str(item) 
     return log
