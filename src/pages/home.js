@@ -7,12 +7,32 @@ import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { PHB_Body, ScoreDisplay } from '../phb_components'
 
 
-export function HomePage({ navigation }) {
-	const [data, setData] = useState([]);
+const getCurrentDate=()=>{
+ 
+	var date = new Date().getDate();
+	var month = new Date().getMonth() + 1;
+	var year = new Date().getFullYear();
 
-	const fetchData = async () => {
+	
+	return year + '-' + month + '-' + date;
+}
+
+
+export function HomePage({ navigation }) {
+	const [data, setData] = useState({
+		message: {
+		  recommendation: "",
+		  total_score: 0,
+		  score_food: 0,
+		  score_exercise: 0,
+		  score_wellness: 0,
+		},
+	  });
+
+	const getScores = async (username, date) => {
 		try {
-			const res = await fetch("http://myipv4address/");
+			var request_parameters = "?username=" + username + "&key_date=" + date;
+			const res = await fetch("http://192.168.0.25:8000/api/get-score-rec" + request_parameters);
 			const data = await res.json();
 			setData(data);
 			console.log(data);
@@ -22,36 +42,40 @@ export function HomePage({ navigation }) {
 		}
 	};
 
+	// console.log(getCurrentDate());
+
 	useEffect(() => {
-		fetchData();
+		getScores('john_doe@gmail.com', '2024-03-1');
 	  }, []);
 
-	const recommend_text = "You slept 5 hours last night, let's go for 7-8 tonight!"
+
     return (
       	<View style={PHB_STYLES.root_container}>
         	<PHB_Body scroll={false}>
 			<View style={PHB_STYLES.center}>
 
-				<View style={styles.recommendation}>
-					<Text>
-						{data['message']}
-					</Text>
+				{data.message.recommendation && (
+					<View style={styles.recommendation}>
+						<Text>
+							{data['message']['recommendation']}
+						</Text>
 					</View>
+				)}
 
 					<View style={PHB_STYLES.center}>
 					<ImageBackground style={styles.octogon} source={require("../assets/mainscore_octogon.png")}>
 						<Text style={[PHB_STYLES.body_text, {fontSize:28}]}> Your Score </Text>
-						<Text style={[PHB_STYLES.body_text, {fontSize:42}]}>83</Text>
+						<Text style={[PHB_STYLES.body_text, {fontSize:42}]}>{data['message']['total_score']}</Text>
 					</ImageBackground>
 					</View>
 					
 					<View style={styles.scoreDisplays}>
-					<ScoreDisplay navigation={navigation} score={87} title="Food" link='Food'/>
-					<ScoreDisplay navigation={navigation} score={72} title="Exercise" link='Exercise'/>
+					<ScoreDisplay navigation={navigation} score={data['message']['score_food']} title="Food" link='Food'/>
+					<ScoreDisplay navigation={navigation} score={data['message']['score_exercise']} title="Exercise" link='Exercise'/>
 					</View>
 
 					<View style={styles.scoreDisplays}>
-					<ScoreDisplay navigation={navigation} score={91} title="Wellness" link='Wellness'/>
+					<ScoreDisplay navigation={navigation} score={data['message']['score_wellness']} title="Wellness" link='Wellness'/>
 					</View>
 
 					<View style={styles.recommendation}>

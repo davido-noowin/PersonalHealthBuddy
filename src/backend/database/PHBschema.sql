@@ -41,9 +41,10 @@ CREATE TABLE wellness (
 CREATE TABLE score (
     username 					VARCHAR(50),
     date 						DATE NOT NULL,
-    score_food				    FLOAT NOT NULL,
-    score_exercise			    FLOAT NOT NULL,
-    score_wellness 				FLOAT NOT NULL,
+    total_score					INT NOT NULL,
+    score_food				    INT NOT NULL,
+    score_exercise			    INT NOT NULL,
+    score_wellness 				INT NOT NULL,
     recommendation 				VARCHAR(100),
     PRIMARY KEY (username, date),
     FOREIGN KEY (username) 		REFERENCES users(username)

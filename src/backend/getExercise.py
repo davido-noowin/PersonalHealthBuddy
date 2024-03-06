@@ -13,9 +13,10 @@ EXERCISE_LOG_QUERY = '''
     AND date >= DATE_SUB(CURDATE(), INTERVAL 5 DAY);
     '''
 
+
 @router.get("/api/get-exercise")
-async def getExercise(username: str, key_date: str):
-    print("request", username, key_date)
+async def getExercise(username: str):
+    print("request", username)
     result = None
 
     try:

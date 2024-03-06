@@ -10,7 +10,7 @@ router = APIRouter()
 LOGIN_QUERY = '''
     SELECT *
     FROM users
-    WHERE email = %s AND password = %s
+    WHERE username = %s AND password = %s
     '''
 
 
@@ -20,8 +20,8 @@ class LoginRequest(BaseModel):
     This comes from the data sent over through React Native
     using the fetch api and POST method
     '''
-    Email: str
-    Password: str
+    username: str
+    password: str
 
 
 @router.post("/api/login")
@@ -35,7 +35,7 @@ async def login(request: LoginRequest):
 
     try:
         cursor = datasource.cursor()
-        cursor.execute(LOGIN_QUERY, (request.Email, request.Password))
+        cursor.execute(LOGIN_QUERY, (request.username, request.password))
         result = cursor.fetchone()
     except Exception as e:
         print(f'Unable to execute the query and log the user in: {e}')
@@ -43,11 +43,10 @@ async def login(request: LoginRequest):
 
     # print("query result", result)
     if result is not None:
-        user_id = result[0]
         return JSONResponse(content={
             "message" : "Login successful",
             "success" : True,
-            "user-id" : str(user_id),
+            "username" : result[0],
             }, status_code=200)
     else:
         return JSONResponse(content={

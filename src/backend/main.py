@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from database_connection import datasource
 
 from userLogin import router as userLoginRouter
 from createUser import router as createUserRouter

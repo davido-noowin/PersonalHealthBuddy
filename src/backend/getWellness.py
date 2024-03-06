@@ -13,25 +13,30 @@ WELLNESS_LOG_QUERY = '''
     AND date >= DATE_SUB(CURDATE(), INTERVAL 5 DAY);
     '''
 
+
 @router.get("/api/get-wellness")
-async def getWellness(username: str, key_date: str):
-    print("request", username, key_date)
+async def getWellness(username: str):
+    print("request", username)
     result = None
 
     try:
         cursor = datasource.cursor()
-        cursor.execute(WELLNESS_LOG_QUERY, (username, key_date))
+        cursor.execute(WELLNESS_LOG_QUERY, (username,))
         result = cursor.fetchall()
     except Exception as e:
         print(f'Unable to execute the query: {e}')
 
     if result:
+        wellness_log = {}
         for day_vals in result:
-            for item in day_vals:
-                if type(item) == date or type(item) == timedelta:
-                    item = str(item) # date types can't be processed by JSON
+            wellness_log[str(day_vals[1])] = {
+                'username' : day_vals[0],
+                'date' : str(day_vals[1]),
+                'screen-duration' : str(day_vals[2]),
+                'sleep-duration' : str(day_vals[3])
+            }
         return JSONResponse(content={
-            "message" : result,
+            "log" : wellness_log,
             "success" : True,
             }, status_code=200)
     else:

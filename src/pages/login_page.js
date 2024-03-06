@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { updateSignIn, setUserID } from '../../auth';
+import { updateSignIn } from '../../auth';
 
 
 /* Form Validation */
@@ -16,7 +16,7 @@ const schema = yup.object().shape({
 /* API call to backend */
 function login(data, navigation) {
     console.log("SUBMITTED");
-    // console.log(data);
+    console.log(data);
 
     // api call to login
     fetch("http://192.168.0.25:8000/api/login", {
@@ -34,7 +34,6 @@ function login(data, navigation) {
             console.log("correct login info");
             
             updateSignIn(true);
-            setUserID(responseData['user-id']);
             navigation.navigate('Home');
         }
         else {
@@ -64,7 +63,7 @@ export function LoginPage({navigation}){
                 
                 <Controller
                     control={control}
-                    name="Email"
+                    name="username"
                     render={({ field, value }) =>(
                         <TextInput 
                             value={value}
@@ -77,7 +76,7 @@ export function LoginPage({navigation}){
                 <Text style={styles.error_text}>{errors.Email?.message}</Text> 
                 <Controller
                     control={control}
-                    name="Password"
+                    name="password"
                     render={({ field, value }) =>(
                         <TextInput 
                             value={value}
