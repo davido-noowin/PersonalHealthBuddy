@@ -106,7 +106,7 @@ def recommend(food_log, exercise_log, wellness_log):
     wellness_score, wellness_rec = wellnessScore(wellness_log)
     rec = ''
 
-    if len(food_log) <3:
+    if len(food_log) < 3:
         rec = "We lack the data for a clear recommendation. Try logging more consistsently!"
     if food_score > 90 and exercise_score > 90 and wellness_score > 90:
         rec = "You're doing great, keep it up!"
@@ -151,14 +151,27 @@ def foodScore(food_log):
 
 
 def exerciseScore(exercise_log):
-    exercise_score = 0
-    for exercise in exercise_log:
-        # TODO: time out of 30 minutes 
-        exercise_score += min(exercise[2]/30, 1)
-        #TODO: include steps within the calculation, goal of 5k steps per day
-    exercise_score = exercise_score*20*5/len(exercise_log)
+    activity_subscore = 0
+    step_subscore = 0
 
-    return exercise_score
+    max_duration = 120
+    max_step_count = 5000
+    
+    for exercise in exercise_log:
+        activity_subscore += (min(exercise_score[2], max_duration) / max_duration) * 50
+        step_subscore += (min(exercise[4], max_step_count) / max_step_count) * 50
+    activity_subscore /= len(exercise_log)
+    step_subscore /= len(exercise_log)
+
+    exercise_score = activity_subscore + step_subscore
+
+    rec = ''
+    if activity_subscore < step_subscore:
+        rec = f'You\'re on the right track, consider doing more of your favorite exercise.'
+    else:
+        rec = f'Increase your step count and you\'ll be fit as a fiddle.'
+
+    return exercise_score, rec
 
 
 
