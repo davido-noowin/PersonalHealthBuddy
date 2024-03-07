@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ImageBackground, Pressable} from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Pedometer } from 'expo-sensors';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { PHB_Body, ScoreDisplay } from '../phb_components'
@@ -17,6 +18,26 @@ const getCurrentDate=()=>{
 	return year + '-' + month + '-' + date;
 }
 
+function updateStepCount() {
+	const isAvailable = Pedometer.isAvailableAsync();
+
+	if (isAvailable) {
+		const start = new Date();
+		const end = new Date();
+		// start.setDate(end.getDate() - 1);
+
+		const step_count = Pedometer.getStepCountAsync(start, end);
+		
+		try {
+			var request_parameters = "?username=" + username + "&key_date=" + date + "&steps=";
+			fetch("http://192.168.86.188:8000/api/update-step-count" + request_parameters);
+		}
+		catch (error) {
+			console.log("Error fetching data:", error);
+		}
+	}
+}
+
 
 export function HomePage({ navigation }) {
 	const [data, setData] = useState({
@@ -28,6 +49,8 @@ export function HomePage({ navigation }) {
 		  score_wellness: 0,
 		},
 	  });
+
+	updateStepCount();
 
 	const getScores = async (username, date) => {
 		try {
