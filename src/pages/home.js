@@ -29,7 +29,7 @@ function updateStepCount() {
 		const step_count = Pedometer.getStepCountAsync(start, end);
 		
 		try {
-			var request_parameters = "?username=" + username + "&key_date=" + date + "&steps=";
+			var request_parameters = "?username=" + username + "&steps=" + step_count;
 			fetch("http://192.168.86.188:8000/api/update-step-count" + request_parameters);
 		}
 		catch (error) {
