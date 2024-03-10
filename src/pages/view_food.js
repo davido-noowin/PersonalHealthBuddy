@@ -30,6 +30,10 @@ export function ViewFoodPage({ navigation }) {
 		}
 	};
 
+    const yesOrNo = (num) => {
+        return num ? ("Yes") : ("No")
+    }
+
     useEffect(() => {
 		getFoodScores('john_doe@gmail.com');
 	  }, []);
@@ -44,9 +48,20 @@ export function ViewFoodPage({ navigation }) {
                     <ScrollView  style={styles.scroll_view}>
                     {
                         Object.entries(foodData.log).map(([key, object], i) => { return (
-                            <Text key={object.date} style={[PHB_STYLES.center, styles.list_text]}>
-                                {JSON.stringify(object)}
+                            <View key={object.date} style={PHB_STYLES.center}>
+                                
+                            <Text style={[styles.list_text, {textDecorationLine: 'underline'}]}>
+                                {object.date} {'\n'}
                             </Text>
+                            <Text  style={styles.list_text}>
+                                
+                                Fruits: {yesOrNo(object.fruits)} {'\n'}
+                                Vegetables: {yesOrNo(object.vegetables)} {'\n'}
+                                Proteins: {yesOrNo(object.protiens)} {'\n'}
+                                Grains: {yesOrNo(object.grains)} {'\n'}
+                                Dairy: {yesOrNo(object.dairy)} {'\n'}
+                            </Text>
+                            </View>
                         )})
                     }
                     </ScrollView>
@@ -63,6 +78,11 @@ const styles = StyleSheet.create({
     scroll_view:{
         height: '100%',
         width: '100%',  
+    },
+    list_text:{
+        paddingVertical: 2,
+        fontSize: 16,
+        alignSelf: "center"
     },
 });
 

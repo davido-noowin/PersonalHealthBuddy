@@ -47,23 +47,31 @@ export function ViewExercisePage({ navigation }) {
             <PHB_Body scroll={true}>
              
                 <InfoContainer title="Past Step Count">
-                {
-                    Object.entries(exerciseData.log).flatMap(([key, object], i) => { return object.steps != 0?(
-                        <Text key={object.date} style={[PHB_STYLES.center, styles.list_text]}>
-                            {object.date}: {object.steps} Steps
-                        </Text>
-                    ) : []})
-                }
+                    <ScrollView>
+
+                    
+                    {
+                        Object.entries(exerciseData.log).flatMap(([key, object], i) => { return object.steps != 0?(
+                            <Text key={object.date} style={[PHB_STYLES.center, styles.list_text]}>
+                                {object.date}: {object.steps} Steps
+                            </Text>
+                        ) : []})
+                    }
+                    </ScrollView>
                 </InfoContainer>
 
                 <InfoContainer title="Past Workouts">
-                {
-                    Object.entries(exerciseData.log).map(([key, object], i) => { return (
-                        <Text key={object.date} style={[PHB_STYLES.center, styles.list_text]}>
-                            {object.date}: {parseExerciseType(object.type)} - {object.duration}
-                        </Text>)
-                    })
-                }
+                    <ScrollView>
+                    {
+                        Object.entries(exerciseData.log).map(([key, object], i) => { return (
+                            <View key={object.date}>
+                            <Text style={[PHB_STYLES.center, styles.list_text]}>
+                                {object.date}: {parseExerciseType(object.type)} - {object.duration}
+                            </Text>
+                            </View>)
+                        })
+                    }
+                    </ScrollView>
                 </InfoContainer>
             </PHB_Body>
     
