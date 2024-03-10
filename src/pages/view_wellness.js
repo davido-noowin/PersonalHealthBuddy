@@ -8,7 +8,7 @@ import { CheckListRow, InfoContainer, PHB_Body } from '../phb_components'
 export function ViewWellnessPage({ navigation }) {
 
     const [wellnessData, setWellnessData] = useState({
-        log: [],
+        log: {},
         success: false
 	});
 
@@ -17,6 +17,7 @@ export function ViewWellnessPage({ navigation }) {
 			var request_parameters = "?username=" + username;
 
             //!!! change the url to yours to test
+            //must also add recent data to view (>5 days from now)
 			const res = await fetch("http://192.168.86.25:8000/api/get-wellness" + request_parameters);
 			const data = await res.json();
 			setWellnessData(data);
