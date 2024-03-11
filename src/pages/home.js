@@ -18,26 +18,6 @@ const getCurrentDate=()=>{
 	return year + '-' + month + '-' + date;
 }
 
-function updateStepCount() {
-	const isAvailable = Pedometer.isAvailableAsync();
-
-	if (isAvailable) {
-		const start = new Date();
-		const end = new Date();
-		// start.setDate(end.getDate() - 1);
-
-		const step_count = Pedometer.getStepCountAsync(start, end);
-		
-		try {
-			var request_parameters = "?username=" + username + "&steps=" + step_count;
-			fetch("http://192.168.86.188:8000/api/update-step-count" + request_parameters);
-		}
-		catch (error) {
-			console.log("Error fetching data:", error);
-		}
-	}
-}
-
 
 export function HomePage({ navigation }) {
 	const [data, setData] = useState({
@@ -48,9 +28,43 @@ export function HomePage({ navigation }) {
 		  score_exercise: 0,
 		  score_wellness: 0,
 		},
-	  });
+	});
 
-	updateStepCount();
+	const updateStepCount = async (username) => {
+		const isAvailable = await Pedometer.isAvailableAsync();
+
+		if (isAvailable) {
+			const start = new Date();
+			const end = new Date();
+			start.setDate(end.getDate() - 1);
+
+			const step_count = await Pedometer.getStepCountAsync(start, end);
+			const data = { username: username, step_count: step_count.steps };
+
+			fetch("http://192.168.86.188:8000/api/update-step-count", {
+				method: "POST",
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data)
+			})
+			.then((response) => response.json())
+			.then((responseData) => {
+				console.log(JSON.stringify(responseData));
+				if (responseData.success === true) {
+					console.log(responseData.log);
+				}
+				else {
+					console.log("step count failed to update")
+				}
+			});
+		}
+	};
+
+	useEffect(() => {
+		updateStepCount('john_doe@gmail.com');
+	}, []);
 
 	const getScores = async (username, date) => {
 		try {

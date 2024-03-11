@@ -2,16 +2,14 @@ from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from database_connection import datasource
-from datetime import date
 
 
 router = APIRouter()
 
 UPDATE_STEP_COUNT_QUERY = """
     UPDATE exercise
-    SET steps = steps + %d
-    WHERE username = %s
-    AND date = CURDATE();
+    SET steps = steps + %s
+    WHERE username = %s AND date = CURDATE();
     """
 
 
@@ -26,7 +24,7 @@ class UpdateRequest(BaseModel):
     step_count: int
 
 
-@router.get("/api/update-step-count")
+@router.post("/api/update-step-count")
 async def updateStepCount(request: UpdateRequest):
     print("request", request)
     result = None
@@ -35,6 +33,7 @@ async def updateStepCount(request: UpdateRequest):
         cursor = datasource.cursor()
         cursor.execute(UPDATE_STEP_COUNT_QUERY, (request.step_count, request.username))
         result = cursor.rowcount
+        datasource.commit()
     except Exception as e:
         print(f"Unable to execute the query: {e}")
 
