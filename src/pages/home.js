@@ -53,7 +53,7 @@ export function HomePage({ navigation }) {
 			.then((responseData) => {
 				console.log(JSON.stringify(responseData));
 				if (responseData.success === true) {
-					console.log(responseData.log);
+					console.log(responseData.message);
 				}
 				else {
 					console.log("step count failed to update")

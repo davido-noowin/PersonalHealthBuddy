@@ -40,7 +40,7 @@ async def updateStepCount(request: UpdateRequest):
     if result:
         return JSONResponse(
             content={
-                "log": f"Updated {result} row(s) in Exercise Table",
+                "message": f"Updated {result} row(s) in Exercise Table",
                 "success": True,
             },
             status_code=200,
