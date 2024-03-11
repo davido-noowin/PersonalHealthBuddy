@@ -10,6 +10,8 @@ from getWellness import router as wellnessLogRouter
 from getScoreRec import router as scoreRecRouter
 from updateStepCount import router as stepCountRouter
 from logExercise import router as logExerciseRouter
+from logFood import router as logFoodRouter
+from logWellness import router as logWellnessRouter
 
 
 app = FastAPI()
@@ -19,8 +21,10 @@ app.include_router(createUserRouter)
 
 app.include_router(rootRouter)
 app.include_router(foodLogRouter)
+app.include_router(logFoodRouter)
 app.include_router(exerciseLogRouter)
 app.include_router(logExerciseRouter)
 app.include_router(wellnessLogRouter)
+app.include_router(logWellnessRouter)
 app.include_router(scoreRecRouter)
 app.include_router(stepCountRouter)
