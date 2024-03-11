@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ImageBackground, Pressable} from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Pedometer } from 'expo-sensors';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { PHB_Body, ScoreDisplay } from '../phb_components'
@@ -27,7 +28,43 @@ export function HomePage({ navigation }) {
 		  score_exercise: 0,
 		  score_wellness: 0,
 		},
-	  });
+	});
+
+	const updateStepCount = async (username) => {
+		const isAvailable = await Pedometer.isAvailableAsync();
+
+		if (isAvailable) {
+			const start = new Date();
+			const end = new Date();
+			start.setDate(end.getDate() - 1);
+
+			const step_count = await Pedometer.getStepCountAsync(start, end);
+			const data = { username: username, step_count: step_count.steps };
+
+			fetch("http://192.168.86.188:8000/api/update-step-count", {
+				method: "POST",
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data)
+			})
+			.then((response) => response.json())
+			.then((responseData) => {
+				console.log(JSON.stringify(responseData));
+				if (responseData.success === true) {
+					console.log(responseData.log);
+				}
+				else {
+					console.log("step count failed to update")
+				}
+			});
+		}
+	};
+
+	useEffect(() => {
+		updateStepCount('john_doe@gmail.com');
+	}, []);
 
 	const getScores = async (username, date) => {
 		try {
