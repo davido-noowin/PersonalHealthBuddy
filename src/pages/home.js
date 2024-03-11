@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, ImageBackground, Pressable} from 'react-native';
+import { StyleSheet, Text, View, Button, ImageBackground, Pressable, Platform } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Pedometer } from 'expo-sensors';
+import GoogleFit, {Scopes} from 'react-native-google-fit';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { PHB_Body, ScoreDisplay } from '../phb_components'
@@ -31,16 +32,46 @@ export function HomePage({ navigation }) {
 	});
 
 	const updateStepCount = async (username) => {
-		const isAvailable = await Pedometer.isAvailableAsync();
+		var data = null;
 
-		if (isAvailable) {
-			const start = new Date();
-			const end = new Date();
-			start.setDate(end.getDate() - 1);
+		switch (Platform.OS) {
+			case 'ios':
+				const isAvailable = await Pedometer.isAvailableAsync();
 
-			const step_count = await Pedometer.getStepCountAsync(start, end);
-			const data = { username: username, step_count: step_count.steps };
+				if (isAvailable) {
+					const start = new Date();
+					const end = new Date();
+					start.setDate(end.getDate() - 1);
 
+					const step_count = await Pedometer.getStepCountAsync(start, end);
+					data = { username: username, step_count: step_count.steps };
+				}
+			case 'android':
+				const options = {
+					scope: [
+						Scopes.FITNESS_ACTIVITY_READ,
+						Scopes.FITNESS_ACTIVITY_WRITE,
+						Scopes.FITNESS_BODY_READ,
+						Scopes.FITNESS_BODY_WRITE,
+					]
+				}
+				await GoogleFit.authorize(options)
+				.then(authResult => {
+					if (authResult.success) {
+						console.log("successfully authorized google fit")
+					} else {
+						console.log("failed to authorize google fit")
+						return;
+					}
+				})
+				
+				const step_count = await GoogleFit.getDailySteps();
+				data = { username: username, step_count: step_count };
+			default:
+				console.log("OS not recognized");
+		}
+
+		if (data) {
 			fetch("http://192.168.86.188:8000/api/update-step-count", {
 				method: "POST",
 				headers: {
