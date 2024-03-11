@@ -8,8 +8,8 @@ import { updateSignIn } from '../../auth';
 
 /* Form Validation */
 const schema = yup.object().shape({
-    Email: yup.string().email("Invalid email").required("Email is required"),
-    Password: yup.string().required("Please enter your password")
+    username: yup.string().email("Invalid email").required("Email is required"),
+    password: yup.string().required("Please enter your password")
 })
 
 
