@@ -4,7 +4,12 @@ USE PHB;
 
 CREATE TABLE users (
 	username 					VARCHAR(50) NOT NULL PRIMARY KEY,
-    password 					VARCHAR(50) NOT NULL
+    password 					VARCHAR(50) NOT NULL,
+    first_name 					VARCHAR(50) NOT NULL,
+    last_name					VARCHAR(50) NOT NULL,
+    age							INT,
+    height						FLOAT,
+    weight						FLOAT
 );
 
 CREATE TABLE exercise (
