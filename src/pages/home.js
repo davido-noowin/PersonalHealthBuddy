@@ -44,7 +44,7 @@ export function HomePage({ navigation }) {
 				start.setDate(end.getDate() - 1);
 
 				const step_count = await Pedometer.getStepCountAsync(start, end);
-				data = { username: username, step_count: step_count.steps };
+				data = { username: username, step_count: step_count.steps, date: end.toISOString().split('T')[0]};
 			}
 		} else if (Platform.OS === 'android') {
 			console.log("ANDROID");
@@ -69,7 +69,7 @@ export function HomePage({ navigation }) {
 			const step_count = await GoogleFit.getDailySteps();
 			data = { username: username, step_count: step_count };
 		} else {
-			console.log("OS not recognized");
+			console.log("OS not recognized")
 		}
 
 		if (data) {
@@ -83,12 +83,11 @@ export function HomePage({ navigation }) {
 			})
 			.then((response) => response.json())
 			.then((responseData) => {
-				console.log(JSON.stringify(responseData));
 				if (responseData.success === true) {
 					console.log(responseData.message);
 				}
 				else {
-					console.log("step count failed to update")
+					console.log("step count failed to update");
 				}
 			});
 		}
@@ -114,7 +113,7 @@ export function HomePage({ navigation }) {
 	// console.log(getCurrentDate());
 
 	useEffect(() => {
-		getScores('john_doe@gmail.com', '2024-03-1');
+		getScores('john_doe@gmail.com', '2024-03-12')
 	  }, []);
 
 

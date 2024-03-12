@@ -9,7 +9,7 @@ router = APIRouter()
 UPDATE_STEP_COUNT_QUERY = """
     UPDATE exercise
     SET steps = %s
-    WHERE username = %s AND date = CURDATE();
+    WHERE username = %s AND date = %s;
     """
 
 
@@ -22,6 +22,7 @@ class UpdateRequest(BaseModel):
 
     username: str
     step_count: int
+    date: str
 
 
 @router.post("/api/update-step-count")
@@ -31,7 +32,10 @@ async def updateStepCount(request: UpdateRequest):
 
     try:
         cursor = datasource.cursor()
-        cursor.execute(UPDATE_STEP_COUNT_QUERY, (request.step_count, request.username))
+        cursor.execute(
+            UPDATE_STEP_COUNT_QUERY,
+            (request.step_count, request.username, request.date),
+        )
         result = cursor.rowcount
         datasource.commit()
     except Exception as e:
