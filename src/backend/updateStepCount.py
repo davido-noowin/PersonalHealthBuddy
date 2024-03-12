@@ -41,7 +41,7 @@ async def updateStepCount(request: UpdateRequest):
     except Exception as e:
         print(f"Unable to execute the query: {e}")
 
-    if result:
+    if result != None:
         return JSONResponse(
             content={
                 "message": f"Updated {result} row(s) in Exercise Table",

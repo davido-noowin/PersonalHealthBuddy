@@ -35,7 +35,6 @@ export function HomePage({ navigation }) {
 		var data = null;
 
 		if (Platform.OS === 'ios') {
-			console.log("IOS");
 			const isAvailable = await Pedometer.isAvailableAsync();
 
 			if (isAvailable) {
@@ -83,11 +82,8 @@ export function HomePage({ navigation }) {
 			})
 			.then((response) => response.json())
 			.then((responseData) => {
-				if (responseData.success === true) {
-					console.log(responseData.message);
-				}
-				else {
-					console.log("step count failed to update");
+				if (responseData.success === false) {
+				    console.log(responseData.message);
 				}
 			});
 		}
@@ -110,12 +106,9 @@ export function HomePage({ navigation }) {
 		}
 	};
 
-	// console.log(getCurrentDate());
-
 	useEffect(() => {
 		getScores('john_doe@gmail.com', '2024-03-12')
 	  }, []);
-
 
     return (
       	<View style={PHB_STYLES.root_container}>
