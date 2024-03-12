@@ -34,41 +34,42 @@ export function HomePage({ navigation }) {
 	const updateStepCount = async (username) => {
 		var data = null;
 
-		switch (Platform.OS) {
-			case 'ios':
-				const isAvailable = await Pedometer.isAvailableAsync();
+		if (Platform.OS === 'ios') {
+			console.log("IOS");
+			const isAvailable = await Pedometer.isAvailableAsync();
 
-				if (isAvailable) {
-					const start = new Date();
-					const end = new Date();
-					start.setDate(end.getDate() - 1);
+			if (isAvailable) {
+				const start = new Date();
+				const end = new Date();
+				start.setDate(end.getDate() - 1);
 
-					const step_count = await Pedometer.getStepCountAsync(start, end);
-					data = { username: username, step_count: step_count.steps };
+				const step_count = await Pedometer.getStepCountAsync(start, end);
+				data = { username: username, step_count: step_count.steps };
+			}
+		} else if (Platform.OS === 'android') {
+			console.log("ANDROID");
+			const options = {
+				scope: [
+					Scopes.FITNESS_ACTIVITY_READ,
+					Scopes.FITNESS_ACTIVITY_WRITE,
+					Scopes.FITNESS_BODY_READ,
+					Scopes.FITNESS_BODY_WRITE,
+				]
+			}
+			await GoogleFit.authorize(options)
+			.then(authResult => {
+				if (authResult.success) {
+					console.log("successfully authorized google fit")
+				} else {
+					console.log("failed to authorize google fit")
+					return;
 				}
-			case 'android':
-				const options = {
-					scope: [
-						Scopes.FITNESS_ACTIVITY_READ,
-						Scopes.FITNESS_ACTIVITY_WRITE,
-						Scopes.FITNESS_BODY_READ,
-						Scopes.FITNESS_BODY_WRITE,
-					]
-				}
-				await GoogleFit.authorize(options)
-				.then(authResult => {
-					if (authResult.success) {
-						console.log("successfully authorized google fit")
-					} else {
-						console.log("failed to authorize google fit")
-						return;
-					}
-				})
-				
-				const step_count = await GoogleFit.getDailySteps();
-				data = { username: username, step_count: step_count };
-			default:
-				console.log("OS not recognized");
+			})
+			
+			const step_count = await GoogleFit.getDailySteps();
+			data = { username: username, step_count: step_count };
+		} else {
+			console.log("OS not recognized");
 		}
 
 		if (data) {
@@ -100,7 +101,7 @@ export function HomePage({ navigation }) {
 	const getScores = async (username, date) => {
 		try {
 			var request_parameters = "?username=" + username + "&key_date=" + date;
-			const res = await fetch("http://192.168.0.25:8000/api/get-score-rec" + request_parameters);
+			const res = await fetch("http://192.168.86.188:8000/api/get-score-rec" + request_parameters);
 			const data = await res.json();
 			setData(data);
 			console.log(data);
