@@ -46,27 +46,29 @@ export function HomePage({ navigation }) {
 				data = { username: username, step_count: step_count.steps, date: end.toISOString().split('T')[0]};
 			}
 		} else if (Platform.OS === 'android') {
-			console.log("ANDROID");
-			const options = {
-				scope: [
-					Scopes.FITNESS_ACTIVITY_READ,
-					Scopes.FITNESS_ACTIVITY_WRITE,
-					Scopes.FITNESS_BODY_READ,
-					Scopes.FITNESS_BODY_WRITE,
-				]
-			}
-			await GoogleFit.authorize(options)
-			.then(authResult => {
-				if (authResult.success) {
-					console.log("successfully authorized google fit")
-				} else {
-					console.log("failed to authorize google fit")
-					return;
-				}
-			})
-			
-			const step_count = await GoogleFit.getDailySteps();
-			data = { username: username, step_count: step_count };
+		    // pass
+//			const options = {
+//				scope: [
+//					Scopes.FITNESS_ACTIVITY_READ,
+//					Scopes.FITNESS_BODY_READ,
+//				]
+//			}
+//
+//			console.log("authorization", GoogleFit.isAuthorized);
+//
+//			GoogleFit.authorize(options)
+//			.then(authResult => {
+//				console.log(authResult)
+//				if (authResult.success) {
+//					console.log("successfully authorized google fit")
+//				} else {
+//					console.log("failed to authorize google fit")
+//					return;
+//				}
+//			})
+//
+//			const step_count = await GoogleFit.getDailySteps();
+//			data = { username: username, step_count: step_count };
 		} else {
 			console.log("OS not recognized")
 		}
