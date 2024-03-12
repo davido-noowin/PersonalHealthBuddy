@@ -8,7 +8,7 @@ router = APIRouter()
 
 UPDATE_STEP_COUNT_QUERY = """
     UPDATE exercise
-    SET steps = steps + %s
+    SET steps = %s
     WHERE username = %s AND date = CURDATE();
     """
 
