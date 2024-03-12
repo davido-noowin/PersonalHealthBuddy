@@ -8,8 +8,8 @@ router = APIRouter()
 
 UPDATE_STEP_COUNT_QUERY = """
     UPDATE exercise
-    SET steps = steps + %s
-    WHERE username = %s AND date = CURDATE();
+    SET steps = %s
+    WHERE username = %s AND date = %s;
     """
 
 
@@ -22,6 +22,7 @@ class UpdateRequest(BaseModel):
 
     username: str
     step_count: int
+    date: str
 
 
 @router.post("/api/update-step-count")
@@ -31,16 +32,19 @@ async def updateStepCount(request: UpdateRequest):
 
     try:
         cursor = datasource.cursor()
-        cursor.execute(UPDATE_STEP_COUNT_QUERY, (request.step_count, request.username))
+        cursor.execute(
+            UPDATE_STEP_COUNT_QUERY,
+            (request.step_count, request.username, request.date),
+        )
         result = cursor.rowcount
         datasource.commit()
     except Exception as e:
         print(f"Unable to execute the query: {e}")
 
-    if result:
+    if result != None:
         return JSONResponse(
             content={
-                "log": f"Updated {result} row(s) in Exercise Table",
+                "message": f"Updated {result} row(s) in Exercise Table",
                 "success": True,
             },
             status_code=200,

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, ImageBackground, Pressable} from 'react-native';
+import { StyleSheet, Text, View, Button, ImageBackground, Pressable, Platform } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Pedometer } from 'expo-sensors';
+import GoogleFit, {Scopes} from 'react-native-google-fit';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { PHB_Body, ScoreDisplay } from '../phb_components'
@@ -31,16 +32,48 @@ export function HomePage({ navigation }) {
 	});
 
 	const updateStepCount = async (username) => {
-		const isAvailable = await Pedometer.isAvailableAsync();
+		var data = null;
 
-		if (isAvailable) {
-			const start = new Date();
-			const end = new Date();
-			start.setDate(end.getDate() - 1);
+		if (Platform.OS === 'ios') {
+			const isAvailable = await Pedometer.isAvailableAsync();
 
-			const step_count = await Pedometer.getStepCountAsync(start, end);
-			const data = { username: username, step_count: step_count.steps };
+			if (isAvailable) {
+				const start = new Date();
+				const end = new Date();
+				start.setDate(end.getDate() - 1);
 
+				const step_count = await Pedometer.getStepCountAsync(start, end);
+				data = { username: username, step_count: step_count.steps, date: end.toISOString().split('T')[0]};
+			}
+		} else if (Platform.OS === 'android') {
+		    // pass
+//			const options = {
+//				scope: [
+//					Scopes.FITNESS_ACTIVITY_READ,
+//					Scopes.FITNESS_BODY_READ,
+//				]
+//			}
+//
+//			console.log("authorization", GoogleFit.isAuthorized);
+//
+//			GoogleFit.authorize(options)
+//			.then(authResult => {
+//				console.log(authResult)
+//				if (authResult.success) {
+//					console.log("successfully authorized google fit")
+//				} else {
+//					console.log("failed to authorize google fit")
+//					return;
+//				}
+//			})
+//
+//			const step_count = await GoogleFit.getDailySteps();
+//			data = { username: username, step_count: step_count };
+		} else {
+			console.log("OS not recognized")
+		}
+
+		if (data) {
 			fetch("http://192.168.86.188:8000/api/update-step-count", {
 				method: "POST",
 				headers: {
@@ -51,12 +84,8 @@ export function HomePage({ navigation }) {
 			})
 			.then((response) => response.json())
 			.then((responseData) => {
-				console.log(JSON.stringify(responseData));
-				if (responseData.success === true) {
-					console.log(responseData.log);
-				}
-				else {
-					console.log("step count failed to update")
+				if (responseData.success === false) {
+				    console.log(responseData.message);
 				}
 			});
 		}
@@ -69,7 +98,7 @@ export function HomePage({ navigation }) {
 	const getScores = async (username, date) => {
 		try {
 			var request_parameters = "?username=" + username + "&key_date=" + date;
-			const res = await fetch("http://192.168.0.25:8000/api/get-score-rec" + request_parameters);
+			const res = await fetch("http://192.168.86.188:8000/api/get-score-rec" + request_parameters);
 			const data = await res.json();
 			setData(data);
 			console.log(data);
@@ -79,12 +108,9 @@ export function HomePage({ navigation }) {
 		}
 	};
 
-	// console.log(getCurrentDate());
-
 	useEffect(() => {
-		getScores('john_doe@gmail.com', '2024-03-1');
+		getScores('john_doe@gmail.com', '2024-03-12')
 	  }, []);
-
 
     return (
       	<View style={PHB_STYLES.root_container}>
