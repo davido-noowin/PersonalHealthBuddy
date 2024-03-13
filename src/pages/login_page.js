@@ -21,7 +21,7 @@ function login(data, setUser) {
     console.log(data);
 
     // api call to login, set to correct address to make login work
-    fetch("http://192.168.86.25:8000/api/login", {
+    fetch("http://18.226.94.38:8000/api/login", {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -49,8 +49,8 @@ export function LoginPage({navigation}){
     const { control, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            "Email": '',
-            "Password": ''
+            "username": '',
+            "password": ''
         },
         reValidateMode: 'onSubmit'
     })

@@ -19,7 +19,7 @@ export function ViewWellnessPage({ navigation }) {
 
             //!!! change the url to yours to test
             //must also add recent data to view (>5 days from now)
-			const res = await fetch("http://169.234.85.112:8000/api/get-wellness" + request_parameters);
+			const res = await fetch("http://18.226.94.38:8000/api/get-wellness" + request_parameters);
 			const data = await res.json();
 			setWellnessData(data);
             console.log("wellnessData" + JSON.stringify(wellnessData, null, 2));

@@ -35,7 +35,7 @@ export function HomePage({ navigation }) {
 	const getScores = async (username, date) => {
 		try {
 			var request_parameters = "?username=" + username + "&key_date=" + date;
-			const res = await fetch("http://169.234.85.112:8000/api/get-score-rec" + request_parameters);
+			const res = await fetch("http://18.226.94.38:8000/api/get-score-rec" + request_parameters);
 			const data = await res.json();
 			setData(data);
 			console.log(data);
@@ -46,7 +46,7 @@ export function HomePage({ navigation }) {
 	};
 
 	useEffect(() => {
-		getScores(currentUser, '2024-03-12')
+		getScores(currentUser, getCurrentDate())
 	  }, []);
 
     return (
