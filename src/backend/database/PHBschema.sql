@@ -41,6 +41,7 @@ CREATE TABLE wellness (
     sleep_duration 				FLOAT,
     PRIMARY KEY (username, date),
     FOREIGN KEY (username) 		REFERENCES users(username)
+
 );
 
 CREATE TABLE score (
