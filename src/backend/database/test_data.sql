@@ -8,12 +8,12 @@ INSERT INTO users (username, password, first_name, last_name) VALUES
 
 -- Dummy data for exercise table
 INSERT INTO exercise (username, date, duration, type, steps) VALUES
-('john_doe@gmail.com', '2024-03-10', '00:45:00', 'cardio', 5000),
-('john_doe@gmail.com', '2024-03-09', '01:00:00', 'strength', 0),
-('jane_smith@gmail.com', '2024-03-10', '01:15:00', 'yoga', 0),
-('jane_smith@gmail.com', '2024-03-09', '00:50:00', 'cardio', 6000),
-('alex_jones@gmail.com', '2024-03-10', '00:30:00', 'pilates', 0),
-('alex_jones@gmail.com', '2024-03-09', '01:10:00', 'sport', 0);
+('john_doe@gmail.com', '2024-03-10', 45, 'cardio', 5000),
+('john_doe@gmail.com', '2024-03-09', 60, 'strength', 0),
+('jane_smith@gmail.com', '2024-03-10', 75, 'yoga', 0),
+('jane_smith@gmail.com', '2024-03-09', 50, 'cardio', 6000),
+('alex_jones@gmail.com', '2024-03-10', 30, 'pilates', 0),
+('alex_jones@gmail.com', '2024-03-09', 70, 'sport', 0);
 
 -- Dummy data for food table
 INSERT INTO food (username, date, fruits, vegetables, protein, grains, dairy) VALUES
@@ -26,12 +26,12 @@ INSERT INTO food (username, date, fruits, vegetables, protein, grains, dairy) VA
 
 -- Dummy data for wellness table
 INSERT INTO wellness (username, date, screen_duration, sleep_duration) VALUES
-('john_doe@gmail.com', '2024-03-10', '02:30:00', '08:00:00'),
-('john_doe@gmail.com', '2024-03-09', '03:00:00', '07:30:00'),
-('jane_smith@gmail.com', '2024-03-10', '02:00:00', '08:30:00'),
-('jane_smith@gmail.com', '2024-03-09', '02:30:00', '08:00:00'),
-('alex_jones@gmail.com', '2024-03-10', '04:00:00', '07:00:00'),
-('alex_jones@gmail.com', '2024-03-09', '03:30:00', '07:30:00');
+('john_doe@gmail.com', '2024-03-10', 8.5, 6.2),
+('john_doe@gmail.com', '2024-03-09', 2.1, 7.4),
+('jane_smith@gmail.com', '2024-03-10', 1.1, 9.0),
+('jane_smith@gmail.com', '2024-03-09', 12.0, 2.5),
+('alex_jones@gmail.com', '2024-03-10', 9.1, 5.6),
+('alex_jones@gmail.com', '2024-03-09', 7.3, 7.7);
 
 -- Dummy data for score table
 INSERT INTO score (username, date, total_score, score_food, score_exercise, score_wellness, recommendation) VALUES

@@ -15,7 +15,7 @@ CREATE TABLE users (
 CREATE TABLE exercise (
     username 					VARCHAR(50),
     date 						DATE NOT NULL,
-    duration 					TIME,
+    duration 					INT,
     type 						SET("cardio", "strength", "yoga", "sport", "pilates"),
     steps 						INT NOT NULL,
     PRIMARY KEY (username, date),
@@ -37,8 +37,8 @@ CREATE TABLE food (
 CREATE TABLE wellness (
     username 					VARCHAR(50),
     date 						DATE NOT NULL,
-    screen_duration 			TIME,
-    sleep_duration 				TIME,
+    screen_duration 			FLOAT,
+    sleep_duration 				FLOAT,
     PRIMARY KEY (username, date),
     FOREIGN KEY (username) 		REFERENCES users(username)
 );

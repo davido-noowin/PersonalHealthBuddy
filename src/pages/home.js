@@ -74,7 +74,7 @@ export function HomePage({ navigation }) {
 		}
 
 		if (data) {
-			fetch("http://192.168.86.188:8000/api/update-step-count", {
+			fetch("http://169.234.85.112:8000/api/update-step-count", {
 				method: "POST",
 				headers: {
 					Accept: "application/json",
@@ -98,7 +98,7 @@ export function HomePage({ navigation }) {
 	const getScores = async (username, date) => {
 		try {
 			var request_parameters = "?username=" + username + "&key_date=" + date;
-			const res = await fetch("http://192.168.86.188:8000/api/get-score-rec" + request_parameters);
+			const res = await fetch("http://169.234.85.112:8000/api/get-score-rec" + request_parameters);
 			const data = await res.json();
 			setData(data);
 			console.log(data);
@@ -109,7 +109,7 @@ export function HomePage({ navigation }) {
 	};
 
 	useEffect(() => {
-		getScores('john_doe@gmail.com', '2024-03-12')
+		getScores('alex_jones@gmail.com', '2024-03-12')
 	  }, []);
 
     return (

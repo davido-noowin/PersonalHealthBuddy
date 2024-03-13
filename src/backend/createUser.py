@@ -7,15 +7,15 @@ from fastapi.responses import JSONResponse
 router = APIRouter()
 
 CREATE_USER_QUERY = '''
-INSERT INTO users (email, first_name, last_name, age, height, weight, password)
+INSERT INTO users (username, first_name, last_name, age, height, weight, password)
     VALUES
     (%s, %s, %s, %s, %s, %s, %s)
     '''
 
 RETURN_ID_QUERY = '''
-    SELECT user_id
+    SELECT username
     FROM users
-    WHERE email = %s
+    WHERE username = %s
     '''
 
 
@@ -48,6 +48,7 @@ async def createUser(request: CreateUserRequest):
                                            request.height,
                                            request.weight,
                                            request.password))
+        datasource.commit()
     except Exception as e:
         print(f'Unable to create an account for the user in the database: {e}')
 

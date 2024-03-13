@@ -32,10 +32,11 @@ SCORE_REC_QUERY = '''
     WHERE username = %s AND date = %s;
     '''
 
+# TODO: TEST INSERT INTO DB
 INSERT_SCORE_REC = '''
     INSERT INTO score
-    (username, date, food_score, exercise_score, wellness_score, recommendation)
-    VALUES (%s, %s, %s, %s, %s, %s);
+    (username, date, total_score, score_food, score_exercise, score_wellness, recommendation)
+    VALUES (%s, %s, %s, %s, %s, %s, %s);
     '''
 
 
@@ -68,32 +69,46 @@ async def getScoreRec(username: str, key_date: str):
     else:
         cursor = datasource.cursor()
 
-        cursor.execute(FOOD_LOG_QUERY, (username, key_date))
-        food_log = cursor.fetchall()
-        food_log = fixType(food_log)
+        try:
+            cursor.execute(FOOD_LOG_QUERY, (username, ))
+            food_log = cursor.fetchall()
+        except Exception as e:
+            print("Unable to get food log for the user:", username)
 
-        cursor.execute(EXERCISE_LOG_QUERY, (username, key_date))
-        exercise_log = cursor.fetchall()
-        exercise_log = fixType(exercise_log)
+        try:
+            cursor.execute(EXERCISE_LOG_QUERY, (username, ))
+            exercise_log = cursor.fetchall()
+        except Exception as e:
+            print("Unable to get the exercise log for the user:", username)
 
-        cursor.execute(WELLNESS_LOG_QUERY, (username, key_date))
-        wellness_log = cursor.fetchall()
-        wellness_log = fixType(wellness_log)
+        try:
+            cursor.execute(WELLNESS_LOG_QUERY, (username, ))
+            wellness_log = cursor.fetchall()
+        except Exception as e:
+            print("Unable to get the wellness log of the user:", username)
 
         # TODO: test output type with date/time
 
         rec, food_score, exercise_score, wellness_score = recommend(food_log, exercise_log, wellness_log)
+        print(rec)
 
         # insert the score and recommendation into the database
-        cursor.execute(INSERT_SCORE_REC, (username, key_date, food_score, exercise_score, wellness_score, rec))
+        cursor.execute(INSERT_SCORE_REC, (username, 
+                                          key_date, 
+                                          food_score + exercise_score + wellness_score, 
+                                          food_score, 
+                                          exercise_score, 
+                                          wellness_score, 
+                                          rec))
+        datasource.commit()
 
         # return the score and recommendation
         return JSONResponse(content={
             "message" : {
                 "recommendation" : rec,
-                "food_score" : food_score,
-                "exercise_score" : exercise_score,
-                "wellness_score" : wellness_score
+                "score_food" : food_score,
+                "score_exercise" : exercise_score,
+                "score_wellness" : wellness_score
             },
             "success" : True,
             }, status_code=200)
@@ -158,7 +173,8 @@ def exerciseScore(exercise_log):
     max_step_count = 5000
     
     for exercise in exercise_log:
-        activity_subscore += (min(exercise_score[2], max_duration) / max_duration) * 50
+        print(exercise)
+        activity_subscore += (min(exercise[2], max_duration) / max_duration) * 50
         step_subscore += (min(exercise[4], max_step_count) / max_step_count) * 50
     activity_subscore /= len(exercise_log)
     step_subscore /= len(exercise_log)
@@ -167,9 +183,9 @@ def exerciseScore(exercise_log):
 
     rec = ''
     if activity_subscore < step_subscore:
-        rec = f'You\'re on the right track, consider doing more of your favorite exercise.'
+        rec = "You're on the right track, consider doing more of your favorite exercise."
     else:
-        rec = f'Increase your step count and you\'ll be fit as a fiddle.'
+        rec = "Increase your step count and you'll be fit as a fiddle."
 
     return exercise_score, rec
 
@@ -210,13 +226,3 @@ def wellnessScore(wellness_log):
         rec = 'Try spending less time on your phone.'
 
     return wellness_score, rec
-
-
-
-def fixType(log):
-    for day_vals in log:
-        for item in day_vals:
-            # date or time types can't be processed by JSON
-            if type(item) == date or type(item) == timedelta:
-                item = str(item) 
-    return log

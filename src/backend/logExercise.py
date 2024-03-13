@@ -51,7 +51,7 @@ async def logExercise(request: ExerciseLogRequest):
                                               request.duration,
                                               request.type,
                                               request.steps,))
-            
+            datasource.commit()
             return JSONResponse(content={
                 "message" : "Exercise has been logged",
                 "success" : True,

@@ -50,7 +50,7 @@ async def logExercise(request: WellnessLogRequest):
                                               request.date,
                                               request.screen_duration,
                                               request.sleep_duration, ))
-            
+            datasource.commit()
             return JSONResponse(content={
                 "message" : "Wellness has been logged for the day",
                 "success" : True,

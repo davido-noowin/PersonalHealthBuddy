@@ -56,7 +56,7 @@ async def logExercise(request: FoodLogRequest):
                                               request.proteins,
                                               request.grains,
                                               request.dairy, ))
-            
+            datasource.commit()
             return JSONResponse(content={
                 "message" : "Food has been logged for the day",
                 "success" : True,

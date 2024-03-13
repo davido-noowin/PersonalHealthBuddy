@@ -18,8 +18,8 @@ export function ViewExercisePage({ navigation }) {
 
             //!!! change the url to yours to test
             //must also add recent data to view (>5 days from now)
-            console.log("sending request to " + "http://192.168.86.25:8000/api/get-exercise" + request_parameters)
-			const res = await fetch("http://192.168.86.25:8000/api/get-exercise" + request_parameters);
+            console.log("sending request to " + "http://169.234.85.112:8000/api/get-exercise" + request_parameters)
+			const res = await fetch("http://169.234.85.112:8000/api/get-exercise" + request_parameters);
 			const data = await res.json();
 			setExerciseData(data);
             console.log("exerciseData: " + JSON.stringify(exerciseData, null, 2));

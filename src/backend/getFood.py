@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from database_connection import datasource
-from datetime import date
 
 
 router = APIRouter()
