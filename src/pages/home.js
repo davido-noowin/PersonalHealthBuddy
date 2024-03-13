@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ImageBackground, Pressable, Platform } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Pedometer } from 'expo-sensors';
-import GoogleFit, {Scopes} from 'react-native-google-fit';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { PHB_Body, ScoreDisplay } from '../phb_components'
