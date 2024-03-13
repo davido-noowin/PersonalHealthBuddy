@@ -3,7 +3,9 @@ import { useForm, Controller } from 'react-hook-form';
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { updateSignIn } from '../../auth';
+import { AuthContext } from '../../authContext';
+import { useContext } from 'react';
+
 
 
 /* Form Validation */
@@ -14,12 +16,12 @@ const schema = yup.object().shape({
 
 
 /* API call to backend */
-function login(data, navigation) {
+function login(data, setUser) {
     console.log("SUBMITTED");
     console.log(data);
 
-    // api call to login
-    fetch("http://192.168.0.25:8000/api/login", {
+    // api call to login, set to correct address to make login work
+    fetch("http://192.168.86.25:8000/api/login", {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -31,10 +33,8 @@ function login(data, navigation) {
     .then((responseData) => {
         console.log(JSON.stringify(responseData)); // logs the server response which should be 200 if successful
         if (responseData.success === true) {
-            console.log("correct login info");
-            
-            updateSignIn(true);
-            navigation.navigate('Home');
+            console.log("correct login info, user=" + responseData.username);
+            setUser(responseData.username)
         }
         else {
             console.log("wrong login");
@@ -55,7 +55,9 @@ export function LoginPage({navigation}){
         reValidateMode: 'onSubmit'
     })
 
-    // console.log("errors: ", errors)
+    const {currentUser, setCurrentUser} = useContext(AuthContext);
+
+    
   return (
 		<View style={[PHB_STYLES.root_container, styles.root]}>
 			<Text style={styles.title_text}>Personal Health Buddy</Text>
@@ -91,7 +93,7 @@ export function LoginPage({navigation}){
 				<Button
 					style={styles.login_button}
 					title="Login"
-					onPress={handleSubmit((data) => login(data, navigation))}
+					onPress={handleSubmit((data) => login(data, setCurrentUser))}
 				/>
 				<Text style={styles.text}>Forgot Password</Text>
 
