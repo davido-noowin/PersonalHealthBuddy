@@ -6,17 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { PHB_Body, ScoreDisplay } from '../phb_components'
-
-
-const getCurrentDate=()=>{
- 
-	var date = new Date().getDate();
-	var month = new Date().getMonth() + 1;
-	var year = new Date().getFullYear();
-
-	
-	return year + '-' + month + '-' + date;
-}
+import { getCurrentDate } from "../../current_date";
 
 
 export function HomePage({ navigation }) {
