@@ -87,8 +87,6 @@ async def getScoreRec(username: str, key_date: str):
         except Exception as e:
             print("Unable to get the wellness log of the user:", username)
 
-        # TODO: test output type with date/time
-
         rec, food_score, exercise_score, wellness_score = recommend(food_log, exercise_log, wellness_log)
         print(rec)
 
@@ -140,7 +138,6 @@ def recommend(food_log, exercise_log, wellness_log):
 
 
 def foodScore(food_log):
-    # TODO: calculate sum of each individual category, recommend the lacking one(s)
     food_score = 0
     fruit_score = 0
     veg_score = 0
@@ -155,7 +152,7 @@ def foodScore(food_log):
         dairy_score += food[6]
 
     food_score_arr = [fruit_score, veg_score, protein_score, grain_score, dairy_score]
-    food_score = sum(food_score_arr)*4*5*5/len(food_log)
+    food_score = sum(food_score_arr)*4*5/len(food_log)
 
     # select the category with the lowest sum
     title = ['fruits', 'vegetables', 'protein', 'grain', 'dairy']
