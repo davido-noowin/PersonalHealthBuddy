@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from '../../authContext';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { InfoContainer, PHB_Body } from '../phb_components'
@@ -11,6 +12,8 @@ export function ViewExercisePage({ navigation }) {
         log: {},
         success: false
 	});
+
+    const {currentUser, setCurrentUser} = useContext(AuthContext);
 
 	const getExerciseScores = async (username) => {
 		try {
@@ -38,7 +41,7 @@ export function ViewExercisePage({ navigation }) {
     }
 
     useEffect(() => {
-		getExerciseScores('john_doe@gmail.com');
+		getExerciseScores(currentUser);
 	  }, []);
 
     return (

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from '../../authContext';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ImageBackground, Pressable, Platform } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -29,6 +30,8 @@ export function HomePage({ navigation }) {
 		},
 	});
 
+	const {currentUser, setCurrentUser} = useContext(AuthContext);
+
 	const getScores = async (username, date) => {
 		try {
 			var request_parameters = "?username=" + username + "&key_date=" + date;
@@ -43,7 +46,7 @@ export function HomePage({ navigation }) {
 	};
 
 	useEffect(() => {
-		getScores('alex_jones@gmail.com', '2024-03-12')
+		getScores(currentUser, '2024-03-12')
 	  }, []);
 
     return (

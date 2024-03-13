@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
+import { AuthContext } from '../../authContext';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { CheckListRow, InfoContainer, PHB_Body } from '../phb_components'
