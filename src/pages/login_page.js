@@ -3,23 +3,25 @@ import { useForm, Controller } from 'react-hook-form';
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { updateSignIn, setUserID } from '../../auth';
+import { AuthContext } from '../../authContext';
+import { useContext } from 'react';
+
 
 
 /* Form Validation */
 const schema = yup.object().shape({
-    Email: yup.string().email("Invalid email").required("Email is required"),
-    Password: yup.string().required("Please enter your password")
+    username: yup.string().email("Invalid email").required("Email is required"),
+    password: yup.string().required("Please enter your password")
 })
 
 
 /* API call to backend */
-function login(data, navigation) {
+function login(data, setUser) {
     console.log("SUBMITTED");
-    // console.log(data);
+    console.log(data);
 
-    // api call to login
-    fetch("http://192.168.0.25:8000/api/login", {
+    // api call to login, set to correct address to make login work
+    fetch("http://18.226.94.38:8000/api/login", {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -31,11 +33,8 @@ function login(data, navigation) {
     .then((responseData) => {
         console.log(JSON.stringify(responseData)); // logs the server response which should be 200 if successful
         if (responseData.success === true) {
-            console.log("correct login info");
-            
-            updateSignIn(true);
-            setUserID(responseData['user-id']);
-            navigation.navigate('Home');
+            console.log("correct login info, user=" + responseData.username);
+            setUser(responseData.username)
         }
         else {
             console.log("wrong login");
@@ -50,13 +49,15 @@ export function LoginPage({navigation}){
     const { control, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            "Email": '',
-            "Password": ''
+            "username": '',
+            "password": ''
         },
         reValidateMode: 'onSubmit'
     })
 
-    // console.log("errors: ", errors)
+    const {currentUser, setCurrentUser} = useContext(AuthContext);
+
+    
   return (
 		<View style={[PHB_STYLES.root_container, styles.root]}>
 			<Text style={styles.title_text}>Personal Health Buddy</Text>
@@ -64,7 +65,7 @@ export function LoginPage({navigation}){
                 
                 <Controller
                     control={control}
-                    name="Email"
+                    name="username"
                     render={({ field, value }) =>(
                         <TextInput 
                             value={value}
@@ -77,7 +78,7 @@ export function LoginPage({navigation}){
                 <Text style={styles.error_text}>{errors.Email?.message}</Text> 
                 <Controller
                     control={control}
-                    name="Password"
+                    name="password"
                     render={({ field, value }) =>(
                         <TextInput 
                             value={value}
@@ -92,7 +93,7 @@ export function LoginPage({navigation}){
 				<Button
 					style={styles.login_button}
 					title="Login"
-					onPress={handleSubmit((data) => login(data, navigation))}
+					onPress={handleSubmit((data) => login(data, setCurrentUser))}
 				/>
 				<Text style={styles.text}>Forgot Password</Text>
 
