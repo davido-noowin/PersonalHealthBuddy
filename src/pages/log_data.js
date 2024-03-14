@@ -4,6 +4,7 @@ import { Pedometer } from 'expo-sensors';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { CheckListRow, InfoContainer, PHB_Body } from '../phb_components'
+
 import { AuthContext } from '../../authContext';
 import React, { useContext, useState } from 'react';
 import { getCurrentDate } from '../../current_date';
@@ -183,11 +184,13 @@ export function LogDataPage({ navigation }) {
             }, currentUser, getCurrentDate())
     }
 
+
     return (
         <View style={PHB_STYLES.root_container}>
             <PHB_Body scroll={true}>
             <InfoContainer title="Food Checklist">
                 <ScrollView  style={styles.scroll_view}>
+                  
                     <Button title='Log Food' onPress={foodPress}></Button>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>

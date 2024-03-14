@@ -15,8 +15,8 @@ CREATE TABLE users (
 CREATE TABLE exercise (
     username 					VARCHAR(50),
     date 						DATE NOT NULL,
-    duration 					INT,
-    type 						SET("cardio", "strength", "yoga", "sport", "pilates"),
+    duration 					FLOAT,
+    type 						VARCHAR(50),
     steps 						INT NOT NULL,
     PRIMARY KEY (username, date),
     FOREIGN KEY (username) 		REFERENCES users(username)

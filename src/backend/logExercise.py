@@ -25,7 +25,7 @@ class ExerciseLogRequest(BaseModel):
     '''
     username: str
     date: date
-    duration: timedelta
+    duration: float
     type: str
     steps: int
 

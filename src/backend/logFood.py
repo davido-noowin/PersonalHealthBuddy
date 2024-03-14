@@ -8,7 +8,7 @@ from datetime import date
 router = APIRouter()
 
 FOOD_LOG_QUERY = '''
-    INSERT INTO food (username, date, fruits, vegetables, proteins, grains, dairy) 
+    INSERT INTO food (username, date, fruits, vegetables, protein, grains, dairy) 
     VALUES
     (%s, %s, %s, %s, %s, %s, %s);
     '''
@@ -28,7 +28,7 @@ class FoodLogRequest(BaseModel):
     date: date
     fruits: bool
     vegetables: bool
-    proteins: bool
+    protein: bool
     grains: bool
     dairy: bool
 
@@ -53,7 +53,7 @@ async def logExercise(request: FoodLogRequest):
                                               request.date,
                                               request.fruits,
                                               request.vegetables,
-                                              request.proteins,
+                                              request.protein,
                                               request.grains,
                                               request.dairy, ))
             datasource.commit()
