@@ -88,9 +88,8 @@ function logWellness(data, username, date) {
     const wellness_data_to_send = {
         username: username,
         date: date,
-        duration: data.duration,
-        type: data.type,
-        steps: data.steps
+        screen_duration: data.screen_duration,
+        sleep_duration: data.sleep_duration
    };
 
    fetch("http://18.226.94.38:8000/api/log-wellness", {
