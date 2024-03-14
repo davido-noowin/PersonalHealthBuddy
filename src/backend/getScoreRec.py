@@ -119,7 +119,7 @@ def recommend(food_log, exercise_log, wellness_log):
     wellness_score, wellness_rec = wellnessScore(wellness_log)
     rec = ''
 
-    if len(food_log) < 3:
+    if len(food_log) < 3 or len(exercise_log) < 3 or len(wellness_log) < 3:
         rec = "We lack the data for a clear recommendation. Try logging more consistsently!"
     if food_score > 90 and exercise_score > 90 and wellness_score > 90:
         rec = "You're doing great, keep it up!"
