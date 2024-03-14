@@ -8,8 +8,6 @@ import { CheckListRow, InfoContainer, PHB_Body } from '../phb_components'
 import { AuthContext } from '../../authContext';
 import React, { useContext, useState } from 'react';
 import { getCurrentDate } from '../../current_date';
-import { set } from 'react-hook-form';
-// import { TextInput } from 'react-native-gesture-handler';
 
 
 function logFood(data, username, date) {
@@ -153,6 +151,17 @@ export function LogDataPage({ navigation }) {
       };
     const changeType = (text) => { setType(text); };
 
+    const changeSleep = (text) => {
+        var newText = text.replace(/[^0-9]/g, ''); // Filter out non-numeric characters
+        const floatVal = parseFloat(newText);
+        setSleep(floatVal);
+      };
+      const changeSC = (text) => {
+        const newText = text.replace(/[^0-9]/g, ''); // Filter out non-numeric characters
+        const floatVal = parseFloat(newText);
+        setScreen(floatVal);
+      };
+
     const toggleFruits = () => setFruit(previousState => !previousState);
     const toggleVeg = () => setVeg(previousState => !previousState);
     const toggleGrain = () => setGrain(previousState => !previousState);
@@ -179,8 +188,8 @@ export function LogDataPage({ navigation }) {
 
     const wellnessPress = () => {
         logWellness({
-            screen_duration : 0, 
-            sleep_duration : 0
+            screen_duration : screen_time, 
+            sleep_duration : sleep
             }, currentUser, getCurrentDate())
     }
 
@@ -273,18 +282,18 @@ export function LogDataPage({ navigation }) {
             <InfoContainer title="Wellness Logger">
                 <ScrollView  style={styles.scroll_view}>
                     <Button title='Log Wellness' onPress={wellnessPress}></Button>
-                    {/* <TextInput
+                    <TextInput
                         keyboardType="numeric"
                         value={sleep}
-                        onChangeText={changeText(setSleep)}
-                        placeholder="Enter a number"
+                        onChangeText={changeSleep}
+                        placeholder="Enter sleep duration in hours"
                     />
                     <TextInput
                         keyboardType="numeric"
                         value={screen_time}
-                        onChangeText={changeText(setScreen)}
-                        placeholder="Enter a number"
-                    /> */}
+                        onChangeText={changeSC}
+                        placeholder="Enter screen time in hours"
+                    />
                 </ScrollView>
             </InfoContainer>
 
