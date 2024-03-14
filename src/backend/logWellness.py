@@ -26,8 +26,8 @@ class WellnessLogRequest(BaseModel):
     '''
     username: str
     date: date
-    screen_duration: timedelta
-    sleep_duration: timedelta
+    screen_duration: float
+    sleep_duration: float
 
 
 @router.post("/api/log-wellness")
