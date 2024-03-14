@@ -4,20 +4,20 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { AuthContext } from '../../authContext';
 
 /* Form Validation */
 const userSchema = yup.object().shape({
-    
-    first_name: yup.string().required(),
-    last_name: yup.string().required(),
-    age: yup.number().required().positive().integer(),
-    height: yup.number().required().positive(),
-    weight: yup.number().required().positive(),
+
+    first_name: yup.string().required("First Name is required"),
+    last_name: yup.string().required("Last Name is required"),
+    age: yup.number().required().positive("Invalid age").integer("Age is required"),
+    height: yup.number().required("Height is required").positive("Invalid height"),
+    weight: yup.number().required("Weight is required").positive("Invalid weight"),
     email: yup.string().email("Invalid email").required("Email is required"),
-    password: yup.string().required()
+    password: yup.string().required("Password is required")
 })
 
 /* API call to backend */
@@ -26,7 +26,7 @@ function createUser(data, setUser) {
     console.log(data);
 
     // api call to create user http://18.226.94.38:8000/api/create-user
-    fetch("http://192.168.86.25:8000/api/create-user", {
+    fetch("http://18.226.94.38:8000/api/create-user", {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -65,12 +65,14 @@ export function CreateAccountPage({navigation}){
         reValidateMode: 'onSubmit'
     })
 
+
     const {currentUser, setCurrentUser} = useContext(AuthContext);
 
     return (
     <View style={[PHB_STYLES.root_container, styles.root]}>
         <Text style={styles.title_text}>Personal Health Buddy</Text>
         <View style={styles.login_panel}>
+            <Text style={styles.error_text}>{errors.first_name?.message}</Text> 
             <Controller
                 control={control}
                 name="first_name"
@@ -83,6 +85,7 @@ export function CreateAccountPage({navigation}){
                     />
                 )}
             />
+            <Text style={styles.error_text}>{errors.last_name?.message}</Text> 
             <Controller
                 control={control}
                 name="last_name"
@@ -95,6 +98,7 @@ export function CreateAccountPage({navigation}){
                     />
                 )}
             />
+            <Text style={styles.error_text}>{errors.age?.message}</Text> 
             <Controller
                 control={control}
                 name="age"
@@ -108,6 +112,7 @@ export function CreateAccountPage({navigation}){
                     />
                 )}
             />
+            <Text style={styles.error_text}>{errors.height?.message}</Text> 
             <Controller
                 control={control}
                 name="height"
@@ -121,6 +126,7 @@ export function CreateAccountPage({navigation}){
                     />
                 )}
             />
+            <Text style={styles.error_text}>{errors.weight?.message}</Text> 
             <Controller
                 control={control}
                 name="weight"
@@ -134,6 +140,7 @@ export function CreateAccountPage({navigation}){
                     />
                 )}
             />
+            <Text style={styles.error_text}>{errors.email?.message}</Text> 
             <Controller
                 control={control}
                 name="email"
@@ -147,6 +154,7 @@ export function CreateAccountPage({navigation}){
                     />
                 )}
             />
+            <Text style={styles.error_text}>{errors.password?.message}</Text> 
             <Controller
                 control={control}
                 name="password"
@@ -160,12 +168,13 @@ export function CreateAccountPage({navigation}){
                     />
                 )}
             />
+            <Text style={styles.error_text}> {errors.password?.message}</Text> 
             <TextInput 
                 style={styles.text_input}
                 placeholder="Confirm Password"
                 secureTextEntry={true}
             />
-            <Text style={styles.error_text}>{JSON.stringify(errors)}</Text> 
+            <Text style={styles.error_text}> </Text> 
             <Button
                 style={styles.create_account_button}
                 title="Create Account"
@@ -204,5 +213,9 @@ const styles = StyleSheet.create({
         padding: 30,
         borderWidth: 5
     },
-    
+    error_text:{
+        alignSelf: 'center',
+        fontSize: 13,
+        color:'darkred'
+    },
 })
