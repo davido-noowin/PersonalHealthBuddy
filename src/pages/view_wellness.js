@@ -29,9 +29,10 @@ export function ViewWellnessPage({ navigation }) {
 			console.log("Error fetching data:", error);
 		}
 	};
+    const {currentUser, setCurrentUser} = useContext(AuthContext);
 
     useEffect(() => {
-		getWellnessScores('john_doe@gmail.com');
+		getWellnessScores(currentUser);
 	  }, []);
 
     return (

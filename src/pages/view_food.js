@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { CheckListRow, InfoContainer, PHB_Body } from '../phb_components'
+import { AuthContext } from '../../authContext';
 
 export function ViewFoodPage({ navigation }) {
 
@@ -33,9 +34,10 @@ export function ViewFoodPage({ navigation }) {
     const yesOrNo = (num) => {
         return num ? ("Yes") : ("No")
     }
+    const {currentUser, setCurrentUser} = useContext(AuthContext);
 
     useEffect(() => {
-		getFoodScores('john_doe@gmail.com');
+		getFoodScores(currentUser);
 	  }, []);
 
 
