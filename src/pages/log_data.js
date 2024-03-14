@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ScrollView, Switch, Platform, TextInput } from 'react-native';
+
 import { Pedometer } from 'expo-sensors';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
@@ -7,6 +8,7 @@ import { CheckListRow, InfoContainer, PHB_Body } from '../phb_components'
 import { AuthContext } from '../../authContext';
 import React, { useContext, useState } from 'react';
 import { getCurrentDate } from '../../current_date';
+import { set } from 'react-hook-form';
 // import { TextInput } from 'react-native-gesture-handler';
 
 
@@ -109,7 +111,10 @@ function logWellness(data, username, date) {
 }
 
 
-async function getStepCount(username) {
+import React, {useState, useContext} from 'react';
+import { AuthContext } from '../../authContext';
+
+async function getStepCount() {
     var step_count = 0;
 
     if (Platform.OS === 'ios') {
@@ -134,22 +139,23 @@ async function getStepCount(username) {
 export function LogDataPage({ navigation }) {
     const step_count = getStepCount()['_j'];
     const {currentUser, setCurrentUser} = useContext(AuthContext);
+
     const [fruits, setFruit] = useState(false);
     const [vegetables, setVeg] = useState(false);
     const [grains, setGrain] = useState(false);
     const [dairy, setDairy] = useState(false);
     const [meats, setMeat] = useState(false);
     
-    const [exercise, setExercise] = useState('');
+    const [exercise_duration, setExercise] = useState('');
+    const [exercise_type, setType] = useState('');
     const [sleep, setSleep] = useState('');
     const [screen_time, setScreen] = useState('');
 
-    // const changeText = (setValue) = (text) => {
-    //     // Regular expression to allow only digits and backspace
-    //     const regex = /^\d+\b/;
-    //     const newValue = text.replace(regex, '');
-    //     setValue(newValue);
-    //   };
+    const changeExercise = (text) => {
+        const newText = text.replace(/[^0-9]/g, ''); // Filter out non-numeric characters
+        setExercise(newText);
+      };
+    const changeType = (text) => { setType(text); };
 
     const toggleFruits = () => setFruit(previousState => !previousState);
     const toggleVeg = () => setVeg(previousState => !previousState);
@@ -164,29 +170,35 @@ export function LogDataPage({ navigation }) {
             protein: meats ? 1 : 0,
             grains: grains ? 1 : 0,
             dairy: dairy ? 1 : 0,
-        }, currentUser, getCurrentDate())}
+        }, currentUser, getCurrentDate())
+    }
     
     const exercisePress = () => {
         logExercise({
-            duration : 0, 
-            type : "cardio", 
-            steps : 0
-            }, currentUser, getCurrentDate())}
+            duration : exercise_duration, 
+            type : exercise_type, 
+            steps : step_count
+            }, currentUser, getCurrentDate())
+    }
 
     const wellnessPress = () => {
         logWellness({
             screen_duration : 0, 
             sleep_duration : 0
-            }, currentUser, getCurrentDate())}
+            }, currentUser, getCurrentDate())
+    }
+
 
     return (
         <View style={PHB_STYLES.root_container}>
             <PHB_Body scroll={true}>
             <InfoContainer title="Food Checklist">
                 <ScrollView  style={styles.scroll_view}>
+
                     <Button title='Log Food' onPress={foodPress}></Button>
+
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text>Fruits: {fruits? 'Y': 'N'}</Text>
+                        <Text>Fruit: {fruits? 'Y': 'N'}</Text>
                         <Switch
                             trackColor={{false: PHB_COLORS.WHITE, true: PHB_COLORS.WHITE}}
                             thumbColor={fruits ? PHB_COLORS.BLUE : PHB_COLORS.LIGHTBLUE}
@@ -196,7 +208,7 @@ export function LogDataPage({ navigation }) {
                     </View>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text>Vegetables: {vegetables? 'Y': 'N'}</Text>
+                        <Text>Vegetable: {vegetables? 'Y': 'N'}</Text>
                         <Switch
                             trackColor={{false: PHB_COLORS.WHITE, true: PHB_COLORS.WHITE}}
                             thumbColor={vegetables ? PHB_COLORS.BLUE : PHB_COLORS.LIGHTBLUE}
@@ -206,7 +218,7 @@ export function LogDataPage({ navigation }) {
                     </View>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text>Grains: {grains? 'Y': 'N'}</Text>
+                        <Text>Grain: {grains? 'Y': 'N'}</Text>
                         <Switch
                             trackColor={{false: PHB_COLORS.WHITE, true: PHB_COLORS.WHITE}}
                             thumbColor={grains ? PHB_COLORS.BLUE : PHB_COLORS.LIGHTBLUE}
@@ -226,7 +238,7 @@ export function LogDataPage({ navigation }) {
                     </View>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text>Meat: {meats? 'Y': 'N'}</Text>
+                        <Text>Protein: {meats? 'Y': 'N'}</Text>
                         <Switch
                             trackColor={{false: PHB_COLORS.WHITE, true: PHB_COLORS.WHITE}}
                             thumbColor={meats ? PHB_COLORS.BLUE : PHB_COLORS.LIGHTBLUE}
@@ -241,14 +253,24 @@ export function LogDataPage({ navigation }) {
             <InfoContainer title="Exercise Logger">
                 <ScrollView  style={styles.scroll_view}>
                     <Button title='Log Exercise' onPress={exercisePress}></Button>
+
                     <Text>Steps today: {step_count}</Text>
 
-                    {/* <TextInput
-                        keyboardType="numeric"
-                        value={exercise}
-                        onChangeText={changeText(setExercise)}
-                        placeholder="Enter a number"
-                    /> */}
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <TextInput
+                            keyboardType="default"
+                            value={exercise_type}
+                            onChangeText={changeType}
+                            placeholder="Enter workout type"
+                        />
+                        <TextInput
+                            keyboardType="numeric"
+                            value={exercise_duration}
+                            onChangeText={changeExercise}
+                            placeholder="Enter workout duration in minutes"
+                        />
+                    </View>
+                    
                 </ScrollView>
             </InfoContainer>
 
@@ -261,6 +283,7 @@ export function LogDataPage({ navigation }) {
                         onChangeText={changeText(setSleep)}
                         placeholder="Enter a number"
                     />
+
                     <TextInput
                         keyboardType="numeric"
                         value={screen_time}
