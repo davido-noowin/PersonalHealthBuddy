@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, ScrollView, Switch, Platform } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, Switch, Platform, TextInput } from 'react-native';
 import { Pedometer } from 'expo-sensors';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
@@ -7,6 +7,7 @@ import { CheckListRow, InfoContainer, PHB_Body } from '../phb_components'
 import { AuthContext } from '../../authContext';
 import React, { useContext, useState } from 'react';
 import { getCurrentDate } from '../../current_date';
+// import { TextInput } from 'react-native-gesture-handler';
 
 
 function logFood(data, username, date) {
@@ -132,51 +133,62 @@ async function getStepCount(username) {
 
 export function LogDataPage({ navigation }) {
     const step_count = getStepCount()['_j'];
-    // console.log("Step count: ", step_count);
     const {currentUser, setCurrentUser} = useContext(AuthContext);
-
     const [fruits, setFruit] = useState(false);
     const [vegetables, setVeg] = useState(false);
     const [grains, setGrain] = useState(false);
     const [dairy, setDairy] = useState(false);
     const [meats, setMeat] = useState(false);
+    
 
     const [exercise, setExercise] = useState('');
     const [sleep, setSleep] = useState('');
     const [screen_time, setScreen] = useState('');
 
-    const changeText = (setValue) = (text) => {
-        // Regular expression to allow only digits and backspace
-        const regex = /^\d+\b/;
-        const newValue = text.replace(regex, '');
-        setValue(newValue);
-      };
+    // const changeText = (setValue) = (text) => {
+    //     // Regular expression to allow only digits and backspace
+    //     const regex = /^\d+\b/;
+    //     const newValue = text.replace(regex, '');
+    //     setValue(newValue);
+    //   };
 
     const toggleSwitch = (setIsEnabled) => setIsEnabled(previousState => !previousState);
+
+    const foodPress = () => {
+        logFood({
+            fruits: fruits ? 1 : 0,
+            vegetables: vegetables ? 1 : 0,
+            protein: meats ? 1 : 0,
+            grains: grains ? 1 : 0,
+            dairy: dairy ? 1 : 0,
+        }, currentUser, getCurrentDate())}
+    
+    const exercisePress = () => {
+        logExercise({
+            duration : 0, 
+            type : "cardio", 
+            steps : 0
+            }, currentUser, getCurrentDate())}
+
+    const wellnessPress = () => {
+        logWellness({
+            screen_duration : 0, 
+            sleep_duration : 0
+            }, currentUser, getCurrentDate())}
 
     return (
         <View style={PHB_STYLES.root_container}>
             <PHB_Body scroll={true}>
             <InfoContainer title="Food Checklist">
                 <ScrollView  style={styles.scroll_view}>
-                <Button title='Log Food' onPress={logFood({
-                    fruits: fruits ? 1 : 0,
-                    vegetables: vegetables ? 1 : 0,
-                    protein: meats ? 1 : 0,
-                    grains: grains ? 1 : 0,
-                    dairy: dairy ? 1 : 0,
-                    }, currentUser, getCurrentDate())}>
-                </Button>
-
+                    <Button title='Log Food' onPress={foodPress}></Button>
                     <Text>Fruits: {fruits? 'Y': 'N'}</Text>
                     <Text>Veg: {vegetables? 'Y': 'N'}</Text>
                     <Text>Grain: {grains? 'Y': 'N'}</Text>
                     <Text>Dairy: {dairy? 'Y': 'N'}</Text>
                     <Text>Meat: {meats? 'Y': 'N'}</Text>
                     
-                    {/* <Text>{step_count} steps</Text> */}
-            {/* 
-                    <Switch
+                    {/* <Switch
                         trackColor={{false: PHB_COLORS.WHITE, true: PHB_COLORS.SLATE}}
                         thumbColor={fruits ? PHB_COLORS.BLUE : PHB_COLORS.LIGHTBLUE}
                         onValueChange={toggleSwitch(setFruit)}
@@ -205,14 +217,28 @@ export function LogDataPage({ navigation }) {
                         thumbColor={meats ? '#f5dd4b' : '#f4f3f4'}
                         onValueChange={toggleSwitch(setMeat)}
                         value={meats}
-                    />
-                    <TextInput
+                    /> */}
+                </ScrollView>
+            </InfoContainer>
+
+            <InfoContainer title="Exercise Logger">
+                <ScrollView  style={styles.scroll_view}>
+                    <Button title='Log Exercise' onPress={exercisePress}></Button>
+                    <Text>Steps today: {step_count}</Text>
+
+                    {/* <TextInput
                         keyboardType="numeric"
                         value={exercise}
                         onChangeText={changeText(setExercise)}
                         placeholder="Enter a number"
-                    />
-                    <TextInput
+                    /> */}
+                </ScrollView>
+            </InfoContainer>
+
+            <InfoContainer title="Wellness Logger">
+                <ScrollView  style={styles.scroll_view}>
+                    <Button title='Log Wellness' onPress={wellnessPress}></Button>
+                    {/* <TextInput
                         keyboardType="numeric"
                         value={sleep}
                         onChangeText={changeText(setSleep)}
@@ -224,27 +250,6 @@ export function LogDataPage({ navigation }) {
                         onChangeText={changeText(setScreen)}
                         placeholder="Enter a number"
                     /> */}
-
-                </ScrollView>
-            </InfoContainer>
-
-            <InfoContainer title="Exercise Logger">
-                <ScrollView  style={styles.scroll_view}>
-                    <Button title='Log Exercise' onPress={logExercise({
-                        duration : 0, 
-                        type : "cardio", 
-                        steps : 0
-                        }, currentUser, getCurrentDate())}></Button>
-                    <Text>Steps today: {step_count}</Text>
-                </ScrollView>
-            </InfoContainer>
-
-            <InfoContainer title="Wellness Logger">
-                <ScrollView  style={styles.scroll_view}>
-                    <Button title='Log Wellness' onPress={logWellness({
-                        "screen_duration" : 0, 
-                        "sleep_duration" : 0
-                        }, currentUser, getCurrentDate())}></Button>
                 </ScrollView>
             </InfoContainer>
 
@@ -253,6 +258,8 @@ export function LogDataPage({ navigation }) {
         </View>
     );
 }
+
+
 const styles = StyleSheet.create({
     scroll_view:{
         height: '90%',
