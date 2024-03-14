@@ -104,6 +104,7 @@ async def getScoreRec(username: str, key_date: str):
         return JSONResponse(content={
             "message" : {
                 "recommendation" : rec,
+                "total_score" : food_score + exercise_score + wellness_score,
                 "score_food" : food_score,
                 "score_exercise" : exercise_score,
                 "score_wellness" : wellness_score
