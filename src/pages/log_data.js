@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ScrollView, Switch, Platform, TextInput } from 'react-native';
+
 import { Pedometer } from 'expo-sensors';
 
 import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
@@ -110,7 +111,10 @@ function logWellness(data, username, date) {
 }
 
 
-async function getStepCount(username) {
+import React, {useState, useContext} from 'react';
+import { AuthContext } from '../../authContext';
+
+async function getStepCount() {
     var step_count = 0;
 
     if (Platform.OS === 'ios') {
@@ -135,6 +139,7 @@ async function getStepCount(username) {
 export function LogDataPage({ navigation }) {
     const step_count = getStepCount()['_j'];
     const {currentUser, setCurrentUser} = useContext(AuthContext);
+
     const [fruits, setFruit] = useState(false);
     const [vegetables, setVeg] = useState(false);
     const [grains, setGrain] = useState(false);
@@ -183,11 +188,13 @@ export function LogDataPage({ navigation }) {
             }, currentUser, getCurrentDate())
     }
 
+
     return (
         <View style={PHB_STYLES.root_container}>
             <PHB_Body scroll={true}>
             <InfoContainer title="Food Checklist">
                 <ScrollView  style={styles.scroll_view}>
+
                     <Button title='Log Food' onPress={foodPress}></Button>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -276,6 +283,7 @@ export function LogDataPage({ navigation }) {
                         onChangeText={changeText(setSleep)}
                         placeholder="Enter a number"
                     />
+
                     <TextInput
                         keyboardType="numeric"
                         value={screen_time}
