@@ -140,7 +140,6 @@ export function LogDataPage({ navigation }) {
     const [dairy, setDairy] = useState(false);
     const [meats, setMeat] = useState(false);
     
-
     const [exercise, setExercise] = useState('');
     const [sleep, setSleep] = useState('');
     const [screen_time, setScreen] = useState('');
@@ -152,7 +151,11 @@ export function LogDataPage({ navigation }) {
     //     setValue(newValue);
     //   };
 
-    const toggleSwitch = (setIsEnabled) => setIsEnabled(previousState => !previousState);
+    const toggleFruits = () => setFruit(previousState => !previousState);
+    const toggleVeg = () => setVeg(previousState => !previousState);
+    const toggleGrain = () => setGrain(previousState => !previousState);
+    const toggleDairy = () => setDairy(previousState => !previousState);
+    const toggleMeat = () => setMeat(previousState => !previousState);
 
     const foodPress = () => {
         logFood({
@@ -182,42 +185,56 @@ export function LogDataPage({ navigation }) {
             <InfoContainer title="Food Checklist">
                 <ScrollView  style={styles.scroll_view}>
                     <Button title='Log Food' onPress={foodPress}></Button>
-                    <Text>Fruits: {fruits? 'Y': 'N'}</Text>
-                    <Text>Veg: {vegetables? 'Y': 'N'}</Text>
-                    <Text>Grain: {grains? 'Y': 'N'}</Text>
-                    <Text>Dairy: {dairy? 'Y': 'N'}</Text>
-                    <Text>Meat: {meats? 'Y': 'N'}</Text>
-                    
-                    {/* <Switch
-                        trackColor={{false: PHB_COLORS.WHITE, true: PHB_COLORS.SLATE}}
-                        thumbColor={fruits ? PHB_COLORS.BLUE : PHB_COLORS.LIGHTBLUE}
-                        onValueChange={toggleSwitch(setFruit)}
-                        value={fruits}
-                    />
-                    <Switch
-                        trackColor={{false: '#767577', true: '#81b0ff'}}
-                        thumbColor={vegetables ? '#f5dd4b' : '#f4f3f4'}
-                        onValueChange={toggleSwitch(setVeg)}
-                        value={vegetables}
-                    />
-                    <Switch
-                        trackColor={{false: '#767577', true: '#81b0ff'}}
-                        thumbColor={grains ? '#f5dd4b' : '#f4f3f4'}
-                        onValueChange={toggleSwitch(setGrain)}
-                        value={grains}
-                    />
-                    <Switch
-                        trackColor={{false: '#767577', true: '#81b0ff'}}
-                        thumbColor={dairy ? '#f5dd4b' : '#f4f3f4'}
-                        onValueChange={toggleSwitch(setDairy)}
-                        value={dairy}
-                    />
-                    <Switch
-                        trackColor={{false: '#767577', true: '#81b0ff'}}
-                        thumbColor={meats ? '#f5dd4b' : '#f4f3f4'}
-                        onValueChange={toggleSwitch(setMeat)}
-                        value={meats}
-                    /> */}
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text>Fruits: {fruits? 'Y': 'N'}</Text>
+                        <Switch
+                            trackColor={{false: PHB_COLORS.WHITE, true: PHB_COLORS.WHITE}}
+                            thumbColor={fruits ? PHB_COLORS.BLUE : PHB_COLORS.LIGHTBLUE}
+                            onValueChange={toggleFruits}
+                            value={fruits}>
+                        </Switch>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text>Vegetables: {vegetables? 'Y': 'N'}</Text>
+                        <Switch
+                            trackColor={{false: PHB_COLORS.WHITE, true: PHB_COLORS.WHITE}}
+                            thumbColor={vegetables ? PHB_COLORS.BLUE : PHB_COLORS.LIGHTBLUE}
+                            onValueChange={toggleVeg}
+                            value={vegetables}>
+                        </Switch>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text>Grains: {grains? 'Y': 'N'}</Text>
+                        <Switch
+                            trackColor={{false: PHB_COLORS.WHITE, true: PHB_COLORS.WHITE}}
+                            thumbColor={grains ? PHB_COLORS.BLUE : PHB_COLORS.LIGHTBLUE}
+                            onValueChange={toggleGrain}
+                            value={grains}>
+                        </Switch>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text>Dairy: {dairy? 'Y': 'N'}</Text>
+                        <Switch
+                            trackColor={{false: PHB_COLORS.WHITE, true: PHB_COLORS.WHITE}}
+                            thumbColor={dairy ? PHB_COLORS.BLUE : PHB_COLORS.LIGHTBLUE}
+                            onValueChange={toggleDairy}
+                            value={dairy}>
+                        </Switch>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text>Meat: {meats? 'Y': 'N'}</Text>
+                        <Switch
+                            trackColor={{false: PHB_COLORS.WHITE, true: PHB_COLORS.WHITE}}
+                            thumbColor={meats ? PHB_COLORS.BLUE : PHB_COLORS.LIGHTBLUE}
+                            onValueChange={toggleMeat}
+                            value={meats}>
+                        </Switch>
+                    </View>
+
                 </ScrollView>
             </InfoContainer>
 
@@ -264,7 +281,7 @@ const styles = StyleSheet.create({
     scroll_view:{
         height: '90%',
         width: '50%',
-        margin: '10%',
-    },
+        margin: '5%',
+    },      
 });
 
