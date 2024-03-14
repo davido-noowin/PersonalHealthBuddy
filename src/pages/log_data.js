@@ -139,10 +139,10 @@ export function LogDataPage({ navigation }) {
     const [dairy, setDairy] = useState(false);
     const [meats, setMeat] = useState(false);
     
-    const [exercise_duration, setExercise] = useState('');
+    const [exercise_duration, setExercise] = useState(0);
     const [exercise_type, setType] = useState('');
-    const [sleep, setSleep] = useState('');
-    const [screen_time, setScreen] = useState('');
+    const [sleep, setSleep] = useState(0);
+    const [screen_time, setScreen] = useState(0);
 
     const changeExercise = (text) => {
         const newText = text.replace(/[^0-9]/g, ''); // Filter out non-numeric characters
