@@ -11,8 +11,6 @@ const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
 
-
-
 export default function App() {
 
   const [currentUser, setCurrentUser] = useState("")
@@ -42,7 +40,6 @@ export default function App() {
       )}
       </AuthContext.Provider>
      </NavigationContainer>
-   );
-  
+   );  
 }
 

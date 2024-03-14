@@ -258,20 +258,21 @@ export function LogDataPage({ navigation }) {
                 <ScrollView  style={styles.scroll_view}>
                     <Button title='Log Exercise' onPress={exercisePress}></Button>
 
-                    <Text>Steps today: {step_count}</Text>
-
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={styles.container}>
+                        <Text style={styles.textInput}>Steps today: {step_count}</Text>
                         <TextInput
                             keyboardType="default"
                             value={exercise_type}
                             onChangeText={changeType}
                             placeholder="Enter workout type"
+                            style={styles.textInput}
                         />
                         <TextInput
                             keyboardType="numeric"
                             value={exercise_duration}
                             onChangeText={changeExercise}
                             placeholder="Enter workout duration in minutes"
+                            style={styles.textInput}
                         />
                     </View>
                     
@@ -281,18 +282,24 @@ export function LogDataPage({ navigation }) {
             <InfoContainer title="Wellness Logger">
                 <ScrollView  style={styles.scroll_view}>
                     <Button title='Log Wellness' onPress={wellnessPress}></Button>
-                    <TextInput
-                        keyboardType="numeric"
-                        value={sleep}
-                        onChangeText={changeSleep}
-                        placeholder="Enter sleep duration in hours"
-                    />
-                    <TextInput
-                        keyboardType="numeric"
-                        value={screen_time}
-                        onChangeText={changeSC}
-                        placeholder="Enter screen time in hours"
-                    />
+
+                    <View style={styles.container}>
+                        <TextInput
+                            keyboardType="numeric"
+                            value={sleep}
+                            onChangeText={changeSleep}
+                            placeholder="Enter sleep duration in hours"
+                            style={styles.textInput}
+                        />
+                        <TextInput
+                            keyboardType="numeric"
+                            value={screen_time}
+                            onChangeText={changeSC}
+                            placeholder="Enter screen time in hours"
+                            style={styles.textInput}
+                        />
+                    </View>
+                    
                 </ScrollView>
             </InfoContainer>
 
@@ -306,9 +313,20 @@ export function LogDataPage({ navigation }) {
 const styles = StyleSheet.create({
     scroll_view:{
         height: '90%',
-        width: '50%',
         margin: '5%',
-    },      
+    },    
+
+    container: {
+        backgroundColor: 'white',
+        padding: 10,
+    },
+
+    textInput: {
+        padding: 15,
+        marginBottom: 10,
+        borderWidth: 1, 
+        borderColor: PHB_COLORS.SLATE,
+    },
 });
 
 

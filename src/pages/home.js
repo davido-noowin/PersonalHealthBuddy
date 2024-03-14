@@ -60,8 +60,8 @@ export function HomePage({ navigation }) {
 					</View>
 					
 					<View style={styles.scoreDisplays}>
-					<ScoreDisplay navigation={navigation} score={data['message']['score_food']} title="Food" link='Food'/>
-					<ScoreDisplay navigation={navigation} score={data['message']['score_exercise']} title="Exercise" link='Exercise'/>
+					<ScoreDisplay navigation={navigation} score={Math.floor(data['message']['score_food'])} title="Food" link='Food'/>
+					<ScoreDisplay navigation={navigation} score={Math.floor(data['message']['score_exercise'])} title="Exercise" link='Exercise'/>
 					</View>
 
 					<View style={styles.scoreDisplays}>
