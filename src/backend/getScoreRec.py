@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
-from database_connection import datasource
+from database_connection import getDatasource
 from datetime import date, timedelta
 
 router = APIRouter()
@@ -32,7 +32,6 @@ SCORE_REC_QUERY = '''
     WHERE username = %s AND date = %s;
     '''
 
-# TODO: TEST INSERT INTO DB
 INSERT_SCORE_REC = '''
     INSERT INTO score
     (username, date, total_score, score_food, score_exercise, score_wellness, recommendation)
@@ -43,7 +42,7 @@ INSERT_SCORE_REC = '''
 @router.get('/api/get-score-rec')
 async def getScoreRec(username: str, key_date: str):
     result = None
-
+    datasource = getDatasource()
     try:
         cursor = datasource.cursor()
         cursor.execute(SCORE_REC_QUERY, (username, key_date))
@@ -54,6 +53,8 @@ async def getScoreRec(username: str, key_date: str):
 
     # the score and recommendation already exists
     if result and metadata:
+        cursor.close()
+        datasource.close()
         ret = {}
         for attribute, item in zip(metadata, result): 
             if type(item) == date or type(item) == timedelta:
@@ -99,6 +100,9 @@ async def getScoreRec(username: str, key_date: str):
                                           wellness_score, 
                                           rec))
         datasource.commit()
+
+        cursor.close
+        datasource.close()
 
         # return the score and recommendation
         return JSONResponse(content={

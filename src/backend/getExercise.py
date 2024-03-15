@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
-from database_connection import datasource
+from database_connection import getDatasource
 from datetime import date, timedelta
 
 
@@ -18,13 +18,16 @@ EXERCISE_LOG_QUERY = '''
 async def getExercise(username: str):
     print("request", username)
     result = None
-
+    datasource = getDatasource()
     try:
         cursor = datasource.cursor()
         cursor.execute(EXERCISE_LOG_QUERY, (username, ))
         result = cursor.fetchall()
+        cursor.close()
     except Exception as e:
         print(f'Unable to execute the query: {e}')
+    finally:
+        datasource.close()
 
     if result:
         exercise_log = {}

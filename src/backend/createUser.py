@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-from database_connection import datasource
+from database_connection import getDatasource
 from fastapi.responses import JSONResponse
 
 
@@ -38,7 +38,7 @@ class CreateUserRequest(BaseModel):
 async def createUser(request: CreateUserRequest):
     result = None
     cursor = None
-
+    datasource = getDatasource()
     try:
         cursor = datasource.cursor()
         cursor.execute(CREATE_USER_QUERY, (request.email, 
@@ -49,8 +49,11 @@ async def createUser(request: CreateUserRequest):
                                            request.weight,
                                            request.password))
         datasource.commit()
+        cursor.close()
     except Exception as e:
         print(f'Unable to create an account for the user in the database: {e}')
+    finally:
+        datasource.close()
 
     try:
         cursor.execute(RETURN_ID_QUERY, (request.email,))

@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
-from database_connection import datasource
+from database_connection import getDatasource
 from pydantic import BaseModel
 from datetime import date, timedelta
 
@@ -33,12 +33,13 @@ class ExerciseLogRequest(BaseModel):
 @router.post("/api/log-exercise")
 async def logExercise(request: ExerciseLogRequest):
     print("request", request)
-
+    datasource = getDatasource()
     user_exists = None
     try:
         cursor = datasource.cursor()
         cursor.execute(CHECK_USER_QUERY, (request.username, ))
         user_exists = cursor.fetchall()
+        cursor.close()
     except Exception as e:
         print(f'ERROR: {e}')
 
@@ -52,6 +53,8 @@ async def logExercise(request: ExerciseLogRequest):
                                               request.type,
                                               request.steps,))
             datasource.commit()
+            cursor.close()
+            datasource.close()
             return JSONResponse(content={
                 "message" : "Exercise has been logged",
                 "success" : True,

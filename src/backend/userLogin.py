@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from database_connection import datasource
+from database_connection import getDatasource
 
 
 router = APIRouter()
@@ -32,11 +32,13 @@ async def login(request: LoginRequest):
     print("request", request)
     result = None
     cursor = None
-
+    datasource = getDatasource()
     try:
         cursor = datasource.cursor()
         cursor.execute(LOGIN_QUERY, (request.username, request.password))
         result = cursor.fetchone()
+        cursor.close()
+        datasource.close()
     except Exception as e:
         print(f'Unable to execute the query and log the user in: {e}')
 
