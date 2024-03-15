@@ -51,17 +51,16 @@ async def createUser(request: CreateUserRequest):
         datasource.commit()
     except Exception as e:
         print(f'Unable to create an account for the user in the database: {e}')
-    finally:
-        datasource.close()
 
     try:
         cursor.execute(RETURN_ID_QUERY, (request.email,))
         result = cursor.fetchone()
+        cursor.close()
     except Exception as e:
         print(f'Unable to retrieve the created user id: {e}')
+    finally:
+        datasource.source()
 
-    
-    cursor.close()
     if result:
         return JSONResponse(content={
             "message" : "Account Creation successful",
