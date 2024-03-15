@@ -6,7 +6,7 @@ import { PHB_COLORS, PHB_FONTS, PHB_STYLES } from '../phb_styles';
 import { CheckListRow, InfoContainer, PHB_Body } from '../phb_components'
 
 import { AuthContext } from '../../authContext';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getCurrentDate } from '../../current_date';
 
 
@@ -137,7 +137,40 @@ async function getStepCount() {
 
 
 export function LogDataPage({ navigation }) {
-    const step_count = getStepCount();
+    const [step_count, setSteps] = useState(0);
+    const getStepCounts = async() => {
+        var step_count = 0;
+
+        if (Platform.OS === 'ios') {
+            const isAvailable = await Pedometer.isAvailableAsync();
+
+            if (isAvailable) {
+                const start = new Date();
+                const end = new Date();
+                start.setDate(end.getDate() - 1);
+
+                step_count = await Pedometer.getStepCountAsync(start, end);
+                if (step_count) {
+                    step_count = step_count.steps;
+                } else {
+                    step_count = 1000;
+                }
+            }
+        }
+
+        else {
+            step_count = 1000;
+        }
+        setSteps(step_count);
+
+    }
+
+    useEffect(() => {
+        getStepCounts()
+    }, []);
+    
+    // const step_count = getStepCount();
+    // console.log(step_count);
     const {currentUser, setCurrentUser} = useContext(AuthContext);
     const [fruits, setFruit] = useState(false);
     const [vegetables, setVeg] = useState(false);
