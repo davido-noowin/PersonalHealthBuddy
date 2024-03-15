@@ -55,11 +55,10 @@ async def createUser(request: CreateUserRequest):
     try:
         cursor.execute(RETURN_ID_QUERY, (request.email,))
         result = cursor.fetchone()
-        cursor.close()
     except Exception as e:
         print(f'Unable to retrieve the created user id: {e}')
     finally:
-        datasource.source()
+        datasource.close()
 
     if result:
         return JSONResponse(content={
