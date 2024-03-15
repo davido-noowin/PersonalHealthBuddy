@@ -55,7 +55,7 @@ export function HomePage({ navigation }) {
 					<View style={PHB_STYLES.center}>
 					<ImageBackground style={styles.octogon} source={require("../assets/mainscore_octogon.png")}>
 						<Text style={[PHB_STYLES.body_text, {fontSize:28}]}> Your Score </Text>
-						<Text style={[PHB_STYLES.body_text, {fontSize:42}]}>{data['message']['total_score']}</Text>
+						<Text style={[PHB_STYLES.body_text, {fontSize:42}]}>{Math.floor(data['message']['total_score'])}</Text>
 					</ImageBackground>
 					</View>
 					
@@ -65,7 +65,7 @@ export function HomePage({ navigation }) {
 					</View>
 
 					<View style={styles.scoreDisplays}>
-					<ScoreDisplay navigation={navigation} score={data['message']['score_wellness']} title="Wellness" link='Wellness'/>
+					<ScoreDisplay navigation={navigation} score={Math.floor(data['message']['score_wellness'])} title="Wellness" link='Wellness'/>
 					</View>
 
 					<View style={styles.recommendation}>

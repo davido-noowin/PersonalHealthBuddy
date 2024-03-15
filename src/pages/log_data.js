@@ -108,7 +108,7 @@ function logWellness(data, username, date) {
 }
 
 
-async function getStepCount(username) {
+async function getStepCount() {
     var step_count = 0;
 
     if (Platform.OS === 'ios') {
@@ -120,6 +120,10 @@ async function getStepCount(username) {
             start.setDate(end.getDate() - 1);
 
             step_count = await Pedometer.getStepCountAsync(start, end).steps;
+        }
+
+        else  {
+            step_count = 5432
         }
     }
     else {
@@ -179,7 +183,7 @@ export function LogDataPage({ navigation }) {
     
     const exercisePress = () => {
         logExercise({
-            duration : exercise_duration, 
+            duration : parseInt(exercise_duration), 
             type : exercise_type, 
             steps : step_count
             }, currentUser, getCurrentDate())
@@ -187,8 +191,8 @@ export function LogDataPage({ navigation }) {
 
     const wellnessPress = () => {
         logWellness({
-            screen_duration : screen_time, 
-            sleep_duration : sleep
+            screen_duration : parseInt(screen_time), 
+            sleep_duration : parseInt(sleep)
             }, currentUser, getCurrentDate())
     }
 
@@ -262,14 +266,14 @@ export function LogDataPage({ navigation }) {
                         <Text style={styles.textInput}>Steps today: {step_count}</Text>
                         <TextInput
                             keyboardType="default"
-                            value={exercise_type}
+                            value={String(exercise_type)}
                             onChangeText={changeType}
                             placeholder="Enter workout type"
                             style={styles.textInput}
                         />
                         <TextInput
                             keyboardType="numeric"
-                            value={exercise_duration}
+                            value={String(exercise_duration)}
                             onChangeText={changeExercise}
                             placeholder="Enter workout duration in minutes"
                             style={styles.textInput}
@@ -286,14 +290,14 @@ export function LogDataPage({ navigation }) {
                     <View style={styles.container}>
                         <TextInput
                             keyboardType="numeric"
-                            value={sleep}
+                            value={String(sleep)}
                             onChangeText={changeSleep}
                             placeholder="Enter sleep duration in hours"
                             style={styles.textInput}
                         />
                         <TextInput
                             keyboardType="numeric"
-                            value={screen_time}
+                            value={String(screen_time)}
                             onChangeText={changeSC}
                             placeholder="Enter screen time in hours"
                             style={styles.textInput}
