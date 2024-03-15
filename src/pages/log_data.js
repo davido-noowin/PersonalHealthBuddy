@@ -119,23 +119,25 @@ async function getStepCount() {
             const end = new Date();
             start.setDate(end.getDate() - 1);
 
-            step_count = await Pedometer.getStepCountAsync(start, end).steps;
-        }
-
-        else  {
-            step_count = 5432
+            step_count = await Pedometer.getStepCountAsync(start, end);
+            if (step_count) {
+                step_count = step_count.steps;
+            } else {
+                step_count = 1000;
+            }
         }
     }
+
     else {
         step_count = 1000;
     }
-    
+
     return step_count;
 };
 
 
 export function LogDataPage({ navigation }) {
-    const step_count = getStepCount()['_j'];
+    const step_count = getStepCount();
     const {currentUser, setCurrentUser} = useContext(AuthContext);
     const [fruits, setFruit] = useState(false);
     const [vegetables, setVeg] = useState(false);
