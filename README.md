@@ -1,5 +1,4 @@
 # PersonalHealthBuddy
-CS 125 Project
 
 Figma: https://www.figma.com/file/pfkvQn9LFRR8bIrs9BBbg9/Personal-Health-Buddy
 
